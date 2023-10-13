@@ -9,9 +9,6 @@ import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 import * as yup from 'yup';
 import _ from '@lodash';
-import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
-import AvatarGroup from '@mui/material/AvatarGroup';
-import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import { useEffect } from 'react';
@@ -44,7 +41,10 @@ function SignInPage() {
   const { isValid, dirtyFields, errors } = formState;
 
   useEffect(() => {
-    setValue('email', 'admin@fusetheme.com', { shouldDirty: true, shouldValidate: true });
+    setValue('email', 'admin@fusetheme.com', {
+      shouldDirty: true,
+      shouldValidate: true,
+    });
     setValue('password', 'admin', { shouldDirty: true, shouldValidate: true });
   }, [setValue]);
 
@@ -68,15 +68,15 @@ function SignInPage() {
     <div className="flex flex-col sm:flex-row items-center md:items-start sm:justify-center md:justify-start flex-1 min-w-0">
       <Paper className="h-full sm:h-auto md:flex md:items-center md:justify-end w-full sm:w-auto md:h-full md:w-1/2 py-8 px-16 sm:p-48 md:p-64 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none ltr:border-r-1 rtl:border-l-1">
         <div className="w-full max-w-320 sm:w-320 mx-auto sm:mx-0">
-          <img className="w-48" src="assets/images/logo/logo.svg" alt="logo" />
+          {/* <img className="w-48" src="assets/images/logo/logo.svg" alt="logo" /> */}
 
           <Typography className="mt-32 text-4xl font-extrabold tracking-tight leading-tight">
-            Sign in
+            Login
           </Typography>
           <div className="flex items-baseline mt-2 font-medium">
-            <Typography>Don't have an account?</Typography>
+            <Typography>Tidak Punya Akun?</Typography>
             <Link className="ml-4" to="/sign-up">
-              Sign up
+              Daftar
             </Link>
           </div>
 
@@ -91,7 +91,7 @@ function SignInPage() {
               control={control}
               render={({ field }) => (
                 <TextField
-                  {...field}
+                  // {...field}
                   className="mb-24"
                   label="Email"
                   autoFocus
@@ -110,7 +110,7 @@ function SignInPage() {
               control={control}
               render={({ field }) => (
                 <TextField
-                  {...field}
+                  // {...field}
                   className="mb-24"
                   label="Password"
                   type="password"
@@ -138,7 +138,7 @@ function SignInPage() {
               />
 
               <Link className="text-md font-medium" to="/pages/auth/forgot-password">
-                Forgot password?
+                Lupa password?
               </Link>
             </div>
 
@@ -151,18 +151,18 @@ function SignInPage() {
               type="submit"
               size="large"
             >
-              Sign in
+              Login
             </Button>
-
+            {/* 
             <div className="flex items-center mt-32">
               <div className="flex-auto mt-px border-t" />
               <Typography className="mx-8" color="text.secondary">
                 Or continue with
               </Typography>
               <div className="flex-auto mt-px border-t" />
-            </div>
+            </div> */}
 
-            <div className="flex items-center mt-32 space-x-16">
+            {/* <div className="flex items-center mt-32 space-x-16">
               <Button variant="outlined" className="flex-auto">
                 <FuseSvgIcon size={20} color="action">
                   feather:facebook
@@ -178,7 +178,7 @@ function SignInPage() {
                   feather:github
                 </FuseSvgIcon>
               </Button>
-            </div>
+            </div> */}
           </form>
         </div>
       </Paper>
@@ -233,30 +233,12 @@ function SignInPage() {
 
         <div className="z-10 relative w-full max-w-2xl">
           <div className="text-7xl font-bold leading-none text-gray-100">
-            <div>Welcome to</div>
-            <div>our community</div>
+            <div>Selamat Datang</div>
+            <div> Di Toko Bangunan Karya Putra</div>
           </div>
           <div className="mt-24 text-lg tracking-tight leading-6 text-gray-400">
-            Fuse helps developers to build organized and well coded dashboards full of beautiful and
-            rich modules. Join us and start building your application today.
-          </div>
-          <div className="flex items-center mt-32">
-            <AvatarGroup
-              sx={{
-                '& .MuiAvatar-root': {
-                  borderColor: 'primary.main',
-                },
-              }}
-            >
-              <Avatar src="assets/images/avatars/female-18.jpg" />
-              <Avatar src="assets/images/avatars/female-11.jpg" />
-              <Avatar src="assets/images/avatars/male-09.jpg" />
-              <Avatar src="assets/images/avatars/male-16.jpg" />
-            </AvatarGroup>
-
-            <div className="ml-16 font-medium tracking-tight text-gray-400">
-              More than 17k people joined us, it's your turn
-            </div>
+            Bahan konstruksi dengan kualitas terbaik dengan biaya rendah. Pelayanan terbaik untuk
+            rumah impian anda
           </div>
         </div>
       </Box>
