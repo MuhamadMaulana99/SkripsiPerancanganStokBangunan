@@ -67,7 +67,7 @@ function DataBarang() {
       isUnmout = true;
     };
   }, []);
-  console.log(data, 'data');
+  // console.log(data, 'data');
 
   return (
     <FusePageCarded
