@@ -1,11 +1,11 @@
-import i18next from 'i18next';
-import ar from './navigation-i18n/ar';
-import en from './navigation-i18n/en';
-import tr from './navigation-i18n/tr';
+// import i18next from 'i18next';
+// import ar from './navigation-i18n/ar';
+// import en from './navigation-i18n/en';
+// import tr from './navigation-i18n/tr';
 
-i18next.addResourceBundle('en', 'navigation', en);
-i18next.addResourceBundle('tr', 'navigation', tr);
-i18next.addResourceBundle('ar', 'navigation', ar);
+// i18next.addResourceBundle('en', 'navigation', en);
+// i18next.addResourceBundle('tr', 'navigation', tr);
+// i18next.addResourceBundle('ar', 'navigation', ar);
 
 const navigationConfig = [
   // {
@@ -22,7 +22,7 @@ const navigationConfig = [
     // translate: 'Data Barang',
     type: 'item',
     icon: 'heroicons-outline:shopping-cart',
-    url: 'dataBarang',
+    url: '/apps/dataBarang/',
   },
   {
     id: 'stok-barang',
@@ -30,7 +30,7 @@ const navigationConfig = [
     // translate: 'Stok Barang',
     type: 'item',
     icon: 'heroicons-outline:collection',
-    url: 'stokBarang',
+    url: '/apps/stokBarang/',
   },
   {
     id: 'barang-masuk',
@@ -38,7 +38,7 @@ const navigationConfig = [
     // translate: 'Barang Masuk',
     type: 'item',
     icon: 'move_to_inbox',
-    url: 'barangMasuk',
+    url: '/apps/barangMasuk/',
   },
   {
     id: 'barang-keluar',
@@ -46,7 +46,7 @@ const navigationConfig = [
     // translate: 'Barang Keluar',
     type: 'item',
     icon: 'exit_to_app',
-    url: 'barangKeluar',
+    url: '/apps/barangKeluar/',
   },
   {
     id: 'user',

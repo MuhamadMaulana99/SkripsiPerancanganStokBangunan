@@ -12,7 +12,6 @@ import _ from '@lodash';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import { useEffect } from 'react';
-import jwtService from '../../auth/services/jwtService';
 
 /**
  * Form Validation Schema
@@ -49,19 +48,20 @@ function SignInPage() {
   }, [setValue]);
 
   function onSubmit({ email, password }) {
-    jwtService
-      .signInWithEmailAndPassword(email, password)
-      .then((user) => {
-        // No need to do anything, user data will be set at app/auth/AuthContext
-      })
-      .catch((_errors) => {
-        _errors.forEach((error) => {
-          setError(error.type, {
-            type: 'manual',
-            message: error.message,
-          });
-        });
-      });
+    window.location.href = 'dataBarang';
+    // jwtService
+    //   .signInWithEmailAndPassword(email, password)
+    //   .then((user) => {
+    //     // No need to do anything, user data will be set at app/auth/AuthContext
+    //   })
+    //   .catch((_errors) => {
+    //     _errors.forEach((error) => {
+    //       setError(error.type, {
+    //         type: 'manual',
+    //         message: error.message,
+    //       });
+    //     });
+    //   });
   }
 
   return (
@@ -153,32 +153,6 @@ function SignInPage() {
             >
               Login
             </Button>
-            {/* 
-            <div className="flex items-center mt-32">
-              <div className="flex-auto mt-px border-t" />
-              <Typography className="mx-8" color="text.secondary">
-                Or continue with
-              </Typography>
-              <div className="flex-auto mt-px border-t" />
-            </div> */}
-
-            {/* <div className="flex items-center mt-32 space-x-16">
-              <Button variant="outlined" className="flex-auto">
-                <FuseSvgIcon size={20} color="action">
-                  feather:facebook
-                </FuseSvgIcon>
-              </Button>
-              <Button variant="outlined" className="flex-auto">
-                <FuseSvgIcon size={20} color="action">
-                  feather:twitter
-                </FuseSvgIcon>
-              </Button>
-              <Button variant="outlined" className="flex-auto">
-                <FuseSvgIcon size={20} color="action">
-                  feather:github
-                </FuseSvgIcon>
-              </Button>
-            </div> */}
           </form>
         </div>
       </Paper>
