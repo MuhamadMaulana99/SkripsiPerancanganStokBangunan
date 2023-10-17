@@ -16,9 +16,9 @@ import { showMessage } from 'app/store/fuse/messageSlice';
 import { Autocomplete, TextField } from '@mui/material';
 
 const top100Films = [
-  { label: 'The Shawshank Redemption', year: 1994 },
-  { label: 'The Godfather', year: 1972 },
-  { label: 'Pulp Fiction', year: 1994 },
+  { label: 'KG', year: 1994 },
+  { label: 'Lusin', year: 1972 },
+  { label: 'Bal', year: 1994 },
 ];
 
 function DataBarangHeader(props) {
@@ -215,7 +215,7 @@ function DataBarangHeader(props) {
         delay={300}
         className="text-24 md:text-32 font-extrabold tracking-tight"
       >
-        Data Barang Bangunan
+        Data Barang
       </Typography>
 
       <div className="flex flex-col w-full sm:w-auto sm:flex-row space-y-16 sm:space-y-0 flex-1 items-center justify-end space-x-8">

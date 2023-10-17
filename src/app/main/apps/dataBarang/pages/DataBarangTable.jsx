@@ -28,9 +28,9 @@ import FuseLoading from '@fuse/core/FuseLoading';
 import Button from '@mui/material/Button';
 
 const top100Films = [
-  { label: 'The Shawshank Redemption', year: 1994 },
-  { label: 'The Godfather', year: 1972 },
-  { label: 'Pulp Fiction', year: 1994 },
+  { label: 'KG', year: 1994 },
+  { label: 'Lusin', year: 1972 },
+  { label: 'Bal', year: 1994 },
 ];
 
 const columns = [
