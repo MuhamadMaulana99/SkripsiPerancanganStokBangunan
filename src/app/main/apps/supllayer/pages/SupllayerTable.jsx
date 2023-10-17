@@ -15,7 +15,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import {
   Alert,
-  Autocomplete,
   Dialog,
   DialogActions,
   DialogContent,
@@ -25,54 +24,20 @@ import {
   TextField,
 } from '@mui/material';
 import FuseLoading from '@fuse/core/FuseLoading';
-import Button from '@mui/material/Button';
-
-const top100Films = [
-  { label: 'The Shawshank Redemption', year: 1994 },
-  { label: 'The Godfather', year: 1972 },
-  { label: 'Pulp Fiction', year: 1994 },
-];
+import { Button } from '@mui/base';
 
 const columns = [
   { id: 'no', label: 'NO', minWidth: 170, align: 'left' },
   {
-    id: 'kodeBarang',
-    label: 'Kode Barang',
+    id: 'name',
+    label: 'Nama',
     minWidth: 170,
     align: 'left',
     // format: (value) => value.toLocaleString('en-US'),
   },
   {
-    id: 'namaBarang',
-    label: 'Nama Barang',
-    minWidth: 170,
-    align: 'left',
-    // format: (value) => value.toLocaleString('en-US'),
-  },
-  {
-    id: 'hargaBarang',
-    label: 'Harga Barang',
-    minWidth: 170,
-    align: 'left',
-    // format: (value) => value.toLocaleString('en-US'),
-  },
-  {
-    id: 'stokBarang',
-    label: 'Stok Barang',
-    minWidth: 170,
-    align: 'left',
-    // format: (value) => value.toLocaleString('en-US'),
-  },
-  {
-    id: 'satuan',
-    label: 'Satuan',
-    minWidth: 170,
-    align: 'left',
-    // format: (value) => value.toLocaleString('en-US'),
-  },
-  {
-    id: 'jenisBarang',
-    label: 'Jenis Barang',
+    id: 'noTlp',
+    label: 'No Telephone',
     minWidth: 170,
     align: 'left',
     // format: (value) => value.toLocaleString('en-US'),
@@ -86,38 +51,25 @@ const columns = [
   },
 ];
 
-function createData(no, id, kodeBarang, namaBarang, hargaBarang, jenisBarang, stokBarang, satuan) {
-  return { no, id, kodeBarang, namaBarang, hargaBarang, jenisBarang, stokBarang, satuan };
+function createData(no, id, name, noTlp) {
+  return { no, id, name, noTlp };
 }
 
-export default function DataBarangTable(props) {
-  // console.log(props, 'pp')
+export default function SupllayerTable(props) {
+  // console.log(props, 'pp');
   const dispatch = useDispatch();
   const [data, setData] = React.useState([]);
   const [dataEdit, setDataEdit] = React.useState({
-    kodeBarang: '',
-    namaBarang: '',
-    hargaBarang: '',
-    jenisBarang: '',
-    stokBarang: '',
-    satuan: '',
+    name: '',
+    noTlp: '',
   });
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const api = `https://652d2c32f9afa8ef4b26e7f0.mockapi.io/tokoBangunan/v1/tokoBangunan`;
+  const api = `https://652d2c32f9afa8ef4b26e7f0.mockapi.io/tokoBangunan/v1/suplayer`;
   const rows = props?.data?.map((item, index) =>
-    createData(
-      index + 1,
-      item?.id,
-      item?.kodeBarang,
-      item?.namaBarang,
-      item?.hargaBarang,
-      item?.jenisBarang,
-      item?.stokBarang,
-      item?.satuan
-    )
+    createData(index + 1, item?.id, item?.name, item?.noTlp)
   );
 
   const handleChangePage = (event, newPage) => {
@@ -137,12 +89,8 @@ export default function DataBarangTable(props) {
   };
 
   const body = {
-    kodeBarang: dataEdit?.kodeBarang,
-    namaBarang: dataEdit?.namaBarang,
-    hargaBarang: dataEdit?.hargaBarang,
-    jenisBarang: dataEdit?.jenisBarang,
-    stokBarang: dataEdit?.stokBarang,
-    satuan: dataEdit?.satuan,
+    name: dataEdit?.name,
+    noTlp: dataEdit?.noTlp,
   };
 
   const HandelEdit = (id) => {
@@ -264,13 +212,11 @@ export default function DataBarangTable(props) {
       </div>
     );
   }
-
   // console.log(dataEdit, 'dataEdit')
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
       <Dialog
-        className="py-20"
         open={open}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
@@ -283,8 +229,8 @@ export default function DataBarangTable(props) {
               {/* <div> */}
               <div>
                 <TextField
-                  value={dataEdit?.kodeBarang}
-                  onChange={(e) => setDataEdit({ ...dataEdit, kodeBarang: e.target.value })}
+                  value={dataEdit?.name}
+                  onChange={(e) => setDataEdit({ ...dataEdit, name: e.target.value })}
                   id="outlined-basic"
                   label="Kode Barang"
                   variant="outlined"
@@ -292,67 +238,19 @@ export default function DataBarangTable(props) {
               </div>
               <div>
                 <TextField
-                  value={dataEdit?.namaBarang}
-                  onChange={(e) => setDataEdit({ ...dataEdit, namaBarang: e.target.value })}
+                  value={dataEdit?.noTlp}
+                  onChange={(e) => setDataEdit({ ...dataEdit, noTlp: e.target.value })}
                   id="outlined-basic"
                   label="Nama Barang"
                   variant="outlined"
                 />
               </div>
-              <div>
-                <TextField
-                  value={dataEdit?.hargaBarang}
-                  onChange={(e) => setDataEdit({ ...dataEdit, hargaBarang: e.target.value })}
-                  id="outlined-basic"
-                  label="Harga Barang"
-                  variant="outlined"
-                />
-              </div>
-              {/* </div> */}
-              {/* <div> */}
-              <div>
-                <TextField
-                  value={dataEdit?.stokBarang}
-                  onChange={(e) => setDataEdit({ ...dataEdit, stokBarang: e.target.value })}
-                  id="outlined-basic"
-                  type="number"
-                  label="Harga Barang"
-                  variant="outlined"
-                />
-              </div>
-              <div className="col-span-2">
-                <Autocomplete
-                  disablePortal
-                  fullWidth
-                  value={dataEdit?.satuan}
-                  onChange={(_, newValue) => {
-                    setDataEdit({ ...dataEdit, satuan: newValue });
-                  }}
-                  id="combo-box-demo"
-                  options={top100Films}
-                  sx={{ width: 300 }}
-                  renderInput={(params) => <TextField {...params} label="Satuan" />}
-                />
-              </div>
-              <div className="col-span-2 ">
-                <TextField
-                  fullWidth
-                  value={dataEdit?.jenisBarang}
-                  onChange={(e) => setDataEdit({ ...dataEdit, jenisBarang: e.target.value })}
-                  id="outlined-basic"
-                  label="Harga Barang"
-                  variant="outlined"
-                />
-              </div>
-              {/* </div> */}
             </div>
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button variant="contained" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="contained" onClick={HandelEdit} autoFocus>
+          <Button onClick={handleClose}>Close</Button>
+          <Button onClick={HandelEdit} autoFocus>
             Save
           </Button>
         </DialogActions>
@@ -377,13 +275,10 @@ export default function DataBarangTable(props) {
               // console.log(row, 'oo');
               return (
                 <TableRow key={row.id} hover role="checkbox" tabIndex={-1}>
-                  <TableCell>{index + 1}.</TableCell>
-                  <TableCell>{row?.kodeBarang}</TableCell>
-                  <TableCell>{row?.namaBarang}</TableCell>
-                  <TableCell>{row?.hargaBarang}</TableCell>
-                  <TableCell>{row?.stokBarang}</TableCell>
-                  <TableCell>{row?.satuan.label}</TableCell>
-                  <TableCell>{row?.jenisBarang}</TableCell>
+                  <TableCell>{index + 1}</TableCell>
+                  <TableCell>{row?.name}</TableCell>
+                  <TableCell>{row?.noTlp}</TableCell>
+
                   <TableCell>
                     <div className="flex justify-center">
                       <div>

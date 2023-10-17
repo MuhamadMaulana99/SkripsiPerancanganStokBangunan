@@ -1,8 +1,8 @@
 import BarangKeluarConfig from './barangKeluar/BarangKeluarConfig';
 import BarangMasukConfig from './barangMasuk/BarangMasukConfig';
 import DataBarangkConfig from './dataBarang/BarangMasukConfig';
-import StokBarangConfig from './stokBarang/StokBarangConfig';
+import SupllayerConfig from './supllayer/SupllayerConfig';
 
-const appsConfigs = [BarangKeluarConfig, BarangMasukConfig, DataBarangkConfig, StokBarangConfig];
+const appsConfigs = [BarangKeluarConfig, BarangMasukConfig, DataBarangkConfig, SupllayerConfig];
 
 export default appsConfigs;

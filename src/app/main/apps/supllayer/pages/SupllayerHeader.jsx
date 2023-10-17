@@ -4,44 +4,32 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { motion } from 'framer-motion';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
-import React, { useState } from 'react';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import { useDispatch } from 'react-redux';
-import axios from 'axios';
 import { showMessage } from 'app/store/fuse/messageSlice';
-import { Autocomplete, TextField } from '@mui/material';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { useState } from 'react';
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  TextField,
+} from '@mui/material';
 
-const top100Films = [
-  { label: 'The Shawshank Redemption', year: 1994 },
-  { label: 'The Godfather', year: 1972 },
-  { label: 'Pulp Fiction', year: 1994 },
-];
-
-function DataBarangHeader(props) {
+function SupllayerHeader(props) {
   const dispatch = useDispatch();
-  const [data, setData] = React.useState({});
-  const [loading, setLoading] = React.useState(true);
-  const [open, setOpen] = React.useState(false);
-  const [kodeBarang, setkodeBarang] = useState('');
-  const [namaBarang, setnamaBarang] = useState('');
-  const [hargaBarang, sethargaBarang] = useState('');
-  const [jenisBarang, setjenisBarang] = useState('');
-  const [stokBarang, setstokBarang] = useState(0);
-  const [satuan, setsatuan] = useState(null);
+  const [data, setData] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [open, setOpen] = useState(false);
+  const [name, setname] = useState('');
+  const [noTlp, setnoTlp] = useState('');
 
   const body = {
-    kodeBarang,
-    namaBarang,
-    hargaBarang,
-    jenisBarang,
-    stokBarang,
-    satuan,
+    name,
+    noTlp,
   };
-  const api = `https://652d2c32f9afa8ef4b26e7f0.mockapi.io/tokoBangunan/v1/tokoBangunan`;
+  const api = `https://652d2c32f9afa8ef4b26e7f0.mockapi.io/tokoBangunan/v1/suplayer`;
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -49,11 +37,6 @@ function DataBarangHeader(props) {
 
   const handleClose = () => {
     setOpen(false);
-    setkodeBarang('');
-    setnamaBarang('');
-    sethargaBarang('');
-    setjenisBarang('');
-    setstokBarang(0);
   };
   const HandelSubmit = () => {
     setLoading(true);
@@ -126,8 +109,8 @@ function DataBarangHeader(props) {
             <div className="grid grid-cols-2 gap-16 mt-10 mb-10">
               <div>
                 <TextField
-                  value={kodeBarang}
-                  onChange={(e) => setkodeBarang(e.target.value)}
+                  value={name}
+                  onChange={(e) => setname(e.target.value)}
                   id="outlined-basic"
                   label="Kode Barang"
                   variant="outlined"
@@ -135,53 +118,10 @@ function DataBarangHeader(props) {
               </div>
               <div>
                 <TextField
-                  value={namaBarang}
-                  onChange={(e) => setnamaBarang(e.target.value)}
+                  value={noTlp}
+                  onChange={(e) => setnoTlp(e.target.value)}
                   id="outlined-basic"
                   label="Nama Barang"
-                  variant="outlined"
-                />
-              </div>
-              <div>
-                <TextField
-                  value={hargaBarang}
-                  onChange={(e) => sethargaBarang(e.target.value)}
-                  id="outlined-basic"
-                  label="Harga Barang"
-                  variant="outlined"
-                />
-              </div>
-              <div>
-                <TextField
-                  value={stokBarang}
-                  onChange={(e) => setstokBarang(e.target.value)}
-                  id="outlined-basic"
-                  type="number"
-                  label="Stok Barang"
-                  variant="outlined"
-                />
-              </div>
-              <div className="col-span-2">
-                <Autocomplete
-                  disablePortal
-                  fullWidth
-                  value={satuan}
-                  onChange={(_, newValue) => {
-                    setsatuan(newValue);
-                  }}
-                  id="combo-box-demo"
-                  options={top100Films}
-                  sx={{ width: 300 }}
-                  renderInput={(params) => <TextField {...params} label="Satuan" />}
-                />
-              </div>
-              <div className="col-span-2 ">
-                <TextField
-                  fullWidth
-                  value={jenisBarang}
-                  onChange={(e) => setjenisBarang(e.target.value)}
-                  id="outlined-basic"
-                  label="Jenis Barang"
                   variant="outlined"
                 />
               </div>
@@ -189,21 +129,8 @@ function DataBarangHeader(props) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button variant="contained" onClick={handleClose}>
-            Close
-          </Button>
-          <Button
-            variant="contained"
-            disabled={
-              kodeBarang === '' ||
-              namaBarang === '' ||
-              hargaBarang === '' ||
-              stokBarang <= 0 ||
-              jenisBarang === ''
-            }
-            onClick={HandelSubmit}
-            autoFocus
-          >
+          <Button onClick={handleClose}>Close</Button>
+          <Button onClick={HandelSubmit} autoFocus>
             Save
           </Button>
         </DialogActions>
@@ -260,4 +187,4 @@ function DataBarangHeader(props) {
   );
 }
 
-export default DataBarangHeader;
+export default SupllayerHeader;

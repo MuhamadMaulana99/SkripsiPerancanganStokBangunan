@@ -17,20 +17,20 @@ const navigationConfig = [
   //   url: 'example',
   // },
   {
+    id: 'suplliyer',
+    title: 'Supllayer',
+    // translate: 'Stok Barang',
+    type: 'item',
+    icon: 'heroicons-outline:collection',
+    url: '/apps/suplliyer/',
+  },
+  {
     id: 'data-barang',
     title: 'Data Barang',
     // translate: 'Data Barang',
     type: 'item',
     icon: 'heroicons-outline:shopping-cart',
     url: '/apps/dataBarang/',
-  },
-  {
-    id: 'stok-barang',
-    title: 'Stok Barang',
-    // translate: 'Stok Barang',
-    type: 'item',
-    icon: 'heroicons-outline:collection',
-    url: '/apps/stokBarang/',
   },
   {
     id: 'barang-masuk',
