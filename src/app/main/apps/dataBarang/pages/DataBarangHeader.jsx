@@ -29,7 +29,7 @@ function DataBarangHeader(props) {
   const [kodeBarang, setkodeBarang] = useState('');
   const [namaBarang, setnamaBarang] = useState('');
   const [hargaBarang, sethargaBarang] = useState('');
-  const [jenisBarang, setjenisBarang] = useState('');
+  const [deskripsi, setdeskripsi] = useState('');
   const [stokBarang, setstokBarang] = useState(0);
   const [satuan, setsatuan] = useState(null);
 
@@ -37,7 +37,7 @@ function DataBarangHeader(props) {
     kodeBarang,
     namaBarang,
     hargaBarang,
-    jenisBarang,
+    deskripsi,
     stokBarang,
     satuan,
   };
@@ -52,7 +52,7 @@ function DataBarangHeader(props) {
     setkodeBarang('');
     setnamaBarang('');
     sethargaBarang('');
-    setjenisBarang('');
+    setdeskripsi('');
     setstokBarang(0);
   };
   const HandelSubmit = () => {
@@ -178,10 +178,10 @@ function DataBarangHeader(props) {
               <div className="col-span-2 ">
                 <TextField
                   fullWidth
-                  value={jenisBarang}
-                  onChange={(e) => setjenisBarang(e.target.value)}
+                  value={deskripsi}
+                  onChange={(e) => setdeskripsi(e.target.value)}
                   id="outlined-basic"
-                  label="Jenis Barang"
+                  label="Deskripsi"
                   variant="outlined"
                 />
               </div>
@@ -199,7 +199,7 @@ function DataBarangHeader(props) {
               namaBarang === '' ||
               hargaBarang === '' ||
               stokBarang <= 0 ||
-              jenisBarang === ''
+              deskripsi === ''
             }
             onClick={HandelSubmit}
             autoFocus

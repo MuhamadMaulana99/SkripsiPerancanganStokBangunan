@@ -15,6 +15,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import {
   Alert,
+  Button,
   Dialog,
   DialogActions,
   DialogContent,
@@ -24,7 +25,6 @@ import {
   TextField,
 } from '@mui/material';
 import FuseLoading from '@fuse/core/FuseLoading';
-import { Button } from '@mui/base';
 
 const columns = [
   { id: 'no', label: 'NO', minWidth: 170, align: 'left' },
@@ -43,6 +43,13 @@ const columns = [
     // format: (value) => value.toLocaleString('en-US'),
   },
   {
+    id: 'alamat',
+    label: 'Alamat',
+    minWidth: 170,
+    align: 'left',
+    // format: (value) => value.toLocaleString('en-US'),
+  },
+  {
     id: 'aksi',
     label: 'Aksi',
     minWidth: 170,
@@ -51,17 +58,17 @@ const columns = [
   },
 ];
 
-function createData(no, id, name, noTlp) {
-  return { no, id, name, noTlp };
+function createData(no, id, name, noTlp, alamat) {
+  return { no, id, name, noTlp, alamat };
 }
 
 export default function SupllayerTable(props) {
-  // console.log(props, 'pp');
   const dispatch = useDispatch();
   const [data, setData] = React.useState([]);
   const [dataEdit, setDataEdit] = React.useState({
     name: '',
     noTlp: '',
+    alamat: '',
   });
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
@@ -69,7 +76,7 @@ export default function SupllayerTable(props) {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const api = `https://652d2c32f9afa8ef4b26e7f0.mockapi.io/tokoBangunan/v1/suplayer`;
   const rows = props?.data?.map((item, index) =>
-    createData(index + 1, item?.id, item?.name, item?.noTlp)
+    createData(index + 1, item?.id, item?.name, item?.noTlp, item?.alamat)
   );
 
   const handleChangePage = (event, newPage) => {
@@ -91,6 +98,7 @@ export default function SupllayerTable(props) {
   const body = {
     name: dataEdit?.name,
     noTlp: dataEdit?.noTlp,
+    alamat: dataEdit?.alamat,
   };
 
   const HandelEdit = (id) => {
@@ -232,7 +240,7 @@ export default function SupllayerTable(props) {
                   value={dataEdit?.name}
                   onChange={(e) => setDataEdit({ ...dataEdit, name: e.target.value })}
                   id="outlined-basic"
-                  label="Kode Barang"
+                  label="Nama"
                   variant="outlined"
                 />
               </div>
@@ -241,7 +249,16 @@ export default function SupllayerTable(props) {
                   value={dataEdit?.noTlp}
                   onChange={(e) => setDataEdit({ ...dataEdit, noTlp: e.target.value })}
                   id="outlined-basic"
-                  label="Nama Barang"
+                  label="No Tlp"
+                  variant="outlined"
+                />
+              </div>
+              <div>
+                <TextField
+                  value={dataEdit?.alamat}
+                  onChange={(e) => setDataEdit({ ...dataEdit, alamat: e.target.value })}
+                  id="outlined-basic"
+                  label="Alamat"
                   variant="outlined"
                 />
               </div>
@@ -249,8 +266,10 @@ export default function SupllayerTable(props) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Close</Button>
-          <Button onClick={HandelEdit} autoFocus>
+          <Button variant="contained" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="contained" onClick={HandelEdit} autoFocus>
             Save
           </Button>
         </DialogActions>
@@ -278,6 +297,7 @@ export default function SupllayerTable(props) {
                   <TableCell>{index + 1}</TableCell>
                   <TableCell>{row?.name}</TableCell>
                   <TableCell>{row?.noTlp}</TableCell>
+                  <TableCell>{row?.alamat}</TableCell>
 
                   <TableCell>
                     <div className="flex justify-center">

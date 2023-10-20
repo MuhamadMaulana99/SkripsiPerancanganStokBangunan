@@ -71,8 +71,8 @@ const columns = [
     // format: (value) => value.toLocaleString('en-US'),
   },
   {
-    id: 'jenisBarang',
-    label: 'Jenis Barang',
+    id: 'deskripsi',
+    label: 'Desskripsi',
     minWidth: 170,
     align: 'left',
     // format: (value) => value.toLocaleString('en-US'),
@@ -86,8 +86,8 @@ const columns = [
   },
 ];
 
-function createData(no, id, kodeBarang, namaBarang, hargaBarang, jenisBarang, stokBarang, satuan) {
-  return { no, id, kodeBarang, namaBarang, hargaBarang, jenisBarang, stokBarang, satuan };
+function createData(no, id, kodeBarang, namaBarang, hargaBarang, deskripsi, stokBarang, satuan) {
+  return { no, id, kodeBarang, namaBarang, hargaBarang, deskripsi, stokBarang, satuan };
 }
 
 export default function DataBarangTable(props) {
@@ -98,7 +98,7 @@ export default function DataBarangTable(props) {
     kodeBarang: '',
     namaBarang: '',
     hargaBarang: '',
-    jenisBarang: '',
+    deskripsi: '',
     stokBarang: '',
     satuan: '',
   });
@@ -114,7 +114,7 @@ export default function DataBarangTable(props) {
       item?.kodeBarang,
       item?.namaBarang,
       item?.hargaBarang,
-      item?.jenisBarang,
+      item?.deskripsi,
       item?.stokBarang,
       item?.satuan
     )
@@ -140,7 +140,7 @@ export default function DataBarangTable(props) {
     kodeBarang: dataEdit?.kodeBarang,
     namaBarang: dataEdit?.namaBarang,
     hargaBarang: dataEdit?.hargaBarang,
-    jenisBarang: dataEdit?.jenisBarang,
+    deskripsi: dataEdit?.deskripsi,
     stokBarang: dataEdit?.stokBarang,
     satuan: dataEdit?.satuan,
   };
@@ -316,7 +316,7 @@ export default function DataBarangTable(props) {
                   onChange={(e) => setDataEdit({ ...dataEdit, stokBarang: e.target.value })}
                   id="outlined-basic"
                   type="number"
-                  label="Harga Barang"
+                  label="Stok Barang"
                   variant="outlined"
                 />
               </div>
@@ -337,10 +337,10 @@ export default function DataBarangTable(props) {
               <div className="col-span-2 ">
                 <TextField
                   fullWidth
-                  value={dataEdit?.jenisBarang}
-                  onChange={(e) => setDataEdit({ ...dataEdit, jenisBarang: e.target.value })}
+                  value={dataEdit?.deskripsi}
+                  onChange={(e) => setDataEdit({ ...dataEdit, deskripsi: e.target.value })}
                   id="outlined-basic"
-                  label="Harga Barang"
+                  label="Desskripsi"
                   variant="outlined"
                 />
               </div>
@@ -382,8 +382,8 @@ export default function DataBarangTable(props) {
                   <TableCell>{row?.namaBarang}</TableCell>
                   <TableCell>{row?.hargaBarang}</TableCell>
                   <TableCell>{row?.stokBarang}</TableCell>
-                  <TableCell>{row?.satuan.label}</TableCell>
-                  <TableCell>{row?.jenisBarang}</TableCell>
+                  <TableCell>{row?.satuan?.label}</TableCell>
+                  <TableCell>{row?.deskripsi}</TableCell>
                   <TableCell>
                     <div className="flex justify-center">
                       <div>

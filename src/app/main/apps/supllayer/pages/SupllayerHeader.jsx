@@ -24,10 +24,12 @@ function SupllayerHeader(props) {
   const [open, setOpen] = useState(false);
   const [name, setname] = useState('');
   const [noTlp, setnoTlp] = useState('');
+  const [alamat, setalamat] = useState('');
 
   const body = {
     name,
     noTlp,
+    alamat,
   };
   const api = `https://652d2c32f9afa8ef4b26e7f0.mockapi.io/tokoBangunan/v1/suplayer`;
 
@@ -112,7 +114,7 @@ function SupllayerHeader(props) {
                   value={name}
                   onChange={(e) => setname(e.target.value)}
                   id="outlined-basic"
-                  label="Kode Barang"
+                  label="Nama"
                   variant="outlined"
                 />
               </div>
@@ -121,7 +123,16 @@ function SupllayerHeader(props) {
                   value={noTlp}
                   onChange={(e) => setnoTlp(e.target.value)}
                   id="outlined-basic"
-                  label="Nama Barang"
+                  label="No Tlp"
+                  variant="outlined"
+                />
+              </div>
+              <div>
+                <TextField
+                  value={alamat}
+                  onChange={(e) => setalamat(e.target.value)}
+                  id="outlined-basic"
+                  label="No Tlp"
                   variant="outlined"
                 />
               </div>
@@ -129,8 +140,10 @@ function SupllayerHeader(props) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Close</Button>
-          <Button onClick={HandelSubmit} autoFocus>
+          <Button variant="contained" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="contained" onClick={HandelSubmit} autoFocus>
             Save
           </Button>
         </DialogActions>
