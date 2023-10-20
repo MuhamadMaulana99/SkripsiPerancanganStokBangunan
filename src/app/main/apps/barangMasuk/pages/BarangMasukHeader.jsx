@@ -41,7 +41,7 @@ function BarangMasukHeader(props) {
     stokBarang,
     satuan,
   };
-  const api = `https://652d2c32f9afa8ef4b26e7f0.mockapi.io/tokoBangunan/v1/tokoBangunan`;
+  const api = `https://6530fba34d4c2e3f333c280d.mockapi.io/barang/barang`;
 
   const handleClickOpen = () => {
     setOpen(true);

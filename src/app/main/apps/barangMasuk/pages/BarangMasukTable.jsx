@@ -50,29 +50,22 @@ const columns = [
     // format: (value) => value.toLocaleString('en-US'),
   },
   {
-    id: 'hargaBarang',
-    label: 'Harga Barang',
+    id: 'tglMasuk',
+    label: 'Tanggal Masuk',
     minWidth: 170,
     align: 'left',
     // format: (value) => value.toLocaleString('en-US'),
   },
   {
-    id: 'stokBarang',
-    label: 'Stok Barang',
+    id: 'supllayer',
+    label: 'supllayer',
     minWidth: 170,
     align: 'left',
     // format: (value) => value.toLocaleString('en-US'),
   },
   {
-    id: 'satuan',
-    label: 'Satuan',
-    minWidth: 170,
-    align: 'left',
-    // format: (value) => value.toLocaleString('en-US'),
-  },
-  {
-    id: 'jenisBarang',
-    label: 'Jenis Barang',
+    id: 'jumlahMasuk',
+    label: 'Jumlah Masuk',
     minWidth: 170,
     align: 'left',
     // format: (value) => value.toLocaleString('en-US'),
@@ -86,8 +79,8 @@ const columns = [
   },
 ];
 
-function createData(no, id, kodeBarang, namaBarang, hargaBarang, jenisBarang, stokBarang, satuan) {
-  return { no, id, kodeBarang, namaBarang, hargaBarang, jenisBarang, stokBarang, satuan };
+function createData(no, id, kodeBarang, namaBarang, tglMasuk, supllayer, jumlahMasuk) {
+  return { no, id, kodeBarang, namaBarang, tglMasuk, supllayer, jumlahMasuk };
 }
 
 export default function BarangMasukTable(props) {
@@ -97,26 +90,25 @@ export default function BarangMasukTable(props) {
   const [dataEdit, setDataEdit] = React.useState({
     kodeBarang: '',
     namaBarang: '',
-    hargaBarang: '',
+    tglMasuk: '',
     jenisBarang: '',
-    stokBarang: '',
-    satuan: '',
+    supllayer: '',
+    jumlahMasuk: '',
   });
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const api = `https://652d2c32f9afa8ef4b26e7f0.mockapi.io/tokoBangunan/v1/tokoBangunan`;
+  const api = `https://6530fba34d4c2e3f333c280d.mockapi.io/barang/barang`;
   const rows = props?.data?.map((item, index) =>
     createData(
       index + 1,
       item?.id,
       item?.kodeBarang,
       item?.namaBarang,
-      item?.hargaBarang,
-      item?.jenisBarang,
-      item?.stokBarang,
-      item?.satuan
+      item?.tglMasuk,
+      item?.supllayer,
+      item?.jumlahMasuk
     )
   );
 
@@ -139,10 +131,10 @@ export default function BarangMasukTable(props) {
   const body = {
     kodeBarang: dataEdit?.kodeBarang,
     namaBarang: dataEdit?.namaBarang,
-    hargaBarang: dataEdit?.hargaBarang,
+    tglMasuk: dataEdit?.tglMasuk,
     jenisBarang: dataEdit?.jenisBarang,
-    stokBarang: dataEdit?.stokBarang,
-    satuan: dataEdit?.satuan,
+    supllayer: dataEdit?.supllayer,
+    jumlahMasuk: dataEdit?.jumlahMasuk,
   };
 
   const HandelEdit = (id) => {
@@ -301,10 +293,10 @@ export default function BarangMasukTable(props) {
               </div>
               <div>
                 <TextField
-                  value={dataEdit?.hargaBarang}
-                  onChange={(e) => setDataEdit({ ...dataEdit, hargaBarang: e.target.value })}
+                  value={dataEdit?.tglMasuk}
+                  onChange={(e) => setDataEdit({ ...dataEdit, tglMasuk: e.target.value })}
                   id="outlined-basic"
-                  label="Harga Barang"
+                  label="Tanggal Masuk"
                   variant="outlined"
                 />
               </div>
@@ -312,11 +304,11 @@ export default function BarangMasukTable(props) {
               {/* <div> */}
               <div>
                 <TextField
-                  value={dataEdit?.stokBarang}
-                  onChange={(e) => setDataEdit({ ...dataEdit, stokBarang: e.target.value })}
+                  value={dataEdit?.supllayer}
+                  onChange={(e) => setDataEdit({ ...dataEdit, supllayer: e.target.value })}
                   id="outlined-basic"
                   type="number"
-                  label="Harga Barang"
+                  label="Tanggal Masuk"
                   variant="outlined"
                 />
               </div>
@@ -324,14 +316,14 @@ export default function BarangMasukTable(props) {
                 <Autocomplete
                   disablePortal
                   fullWidth
-                  value={dataEdit?.satuan}
+                  value={dataEdit?.jumlahMasuk}
                   onChange={(_, newValue) => {
-                    setDataEdit({ ...dataEdit, satuan: newValue });
+                    setDataEdit({ ...dataEdit, jumlahMasuk: newValue });
                   }}
                   id="combo-box-demo"
                   options={top100Films}
                   sx={{ width: 300 }}
-                  renderInput={(params) => <TextField {...params} label="Satuan" />}
+                  renderInput={(params) => <TextField {...params} label="jumlahMasuk" />}
                 />
               </div>
               <div className="col-span-2 ">
@@ -340,7 +332,7 @@ export default function BarangMasukTable(props) {
                   value={dataEdit?.jenisBarang}
                   onChange={(e) => setDataEdit({ ...dataEdit, jenisBarang: e.target.value })}
                   id="outlined-basic"
-                  label="Harga Barang"
+                  label="Tanggal Masuk"
                   variant="outlined"
                 />
               </div>
@@ -380,10 +372,9 @@ export default function BarangMasukTable(props) {
                   <TableCell>{index + 1}.</TableCell>
                   <TableCell>{row?.kodeBarang}</TableCell>
                   <TableCell>{row?.namaBarang}</TableCell>
-                  <TableCell>{row?.hargaBarang}</TableCell>
-                  <TableCell>{row?.stokBarang}</TableCell>
-                  <TableCell>{row?.satuan.label}</TableCell>
-                  <TableCell>{row?.jenisBarang}</TableCell>
+                  <TableCell>{row?.tglMasuk}</TableCell>
+                  <TableCell>{row?.supllayer}</TableCell>
+                  <TableCell>{row?.jumlahMasuk}</TableCell>
                   <TableCell>
                     <div className="flex justify-center">
                       <div>
