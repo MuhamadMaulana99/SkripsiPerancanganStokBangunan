@@ -39,9 +39,10 @@ function DataBarangHeader(props) {
     hargaBarang,
     deskripsi,
     stokBarang,
-    satuan,
+    satuan: JSON.stringify(satuan),
   };
-  const api = `https://652d2c32f9afa8ef4b26e7f0.mockapi.io/tokoBangunan/v1/suplayer/1/tokoBangunan`;
+  // const api = `https://652d2c32f9afa8ef4b26e7f0.mockapi.io/tokoBangunan/v1/suplayer/1/tokoBangunan`;
+  const api = `http://localhost:3000/dataBarangs`;
 
   const handleClickOpen = () => {
     setOpen(true);

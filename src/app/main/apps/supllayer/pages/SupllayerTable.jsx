@@ -74,7 +74,8 @@ export default function SupllayerTable(props) {
   const [loading, setLoading] = React.useState(true);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const api = `https://652d2c32f9afa8ef4b26e7f0.mockapi.io/tokoBangunan/v1/suplayer`;
+  // const api = `https://652d2c32f9afa8ef4b26e7f0.mockapi.io/tokoBangunan/v1/suplayer`;
+  const api = `http://localhost:3000/suplayer`;
   const rows = props?.data?.map((item, index) =>
     createData(index + 1, item?.id, item?.name, item?.noTlp, item?.alamat)
   );

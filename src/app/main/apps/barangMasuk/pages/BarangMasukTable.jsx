@@ -99,7 +99,8 @@ export default function BarangMasukTable(props) {
   const [loading, setLoading] = React.useState(true);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const api = `https://6530fba34d4c2e3f333c280d.mockapi.io/barang/barang`;
+  // const api = `https://6530fba34d4c2e3f333c280d.mockapi.io/barang/barang`;
+  const api = `http://localhost:3000/barangMasuk`;
   const rows = props?.data?.map((item, index) =>
     createData(
       index + 1,

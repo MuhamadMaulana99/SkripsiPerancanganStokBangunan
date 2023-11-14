@@ -14,7 +14,8 @@ function BarangMasuk() {
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const api = `https://6530fba34d4c2e3f333c280d.mockapi.io/barang/barang`;
+  // const api = `https://6530fba34d4c2e3f333c280d.mockapi.io/barang/barang`;
+  const api = `http://localhost:3000/barangMasuk`;
   const getData = async () => {
     setLoading(true);
     const response = await axios

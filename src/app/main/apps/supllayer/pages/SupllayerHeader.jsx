@@ -31,7 +31,8 @@ function SupllayerHeader(props) {
     noTlp,
     alamat,
   };
-  const api = `https://652d2c32f9afa8ef4b26e7f0.mockapi.io/tokoBangunan/v1/suplayer`;
+  // const api = `https://652d2c32f9afa8ef4b26e7f0.mockapi.io/tokoBangunan/v1/suplayer`;
+  const api = `http://localhost:3000/suplayer`;
 
   const handleClickOpen = () => {
     setOpen(true);
