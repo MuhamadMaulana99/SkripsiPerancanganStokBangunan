@@ -17,12 +17,28 @@ const navigationConfig = [
   //   url: 'example',
   // },
   {
-    id: 'suplliyer',
-    title: 'Supllayer',
-    // translate: 'Stok Barang',
-    type: 'item',
-    icon: 'heroicons-outline:collection',
-    url: '/apps/suplliyer/',
+    id: 'master',
+    title: 'Master Data',
+    type: 'collapse',
+    icon: 'check_box',
+    children: [
+      {
+        id: 'suplliyer',
+        title: 'Supllayer',
+        // translate: 'Stok Barang',
+        type: 'item',
+        icon: 'heroicons-outline:collection',
+        url: '/apps/suplliyer/',
+      },
+      {
+        id: 'masterBarang',
+        title: 'Master Barang',
+        // translate: 'Stok Barang',
+        type: 'item',
+        icon: 'heroicons-outline:collection',
+        url: '/apps/masterBarang/',
+      },
+    ],
   },
   {
     id: 'data-barang',
@@ -54,7 +70,7 @@ const navigationConfig = [
     // translate: 'User',
     type: 'item',
     icon: 'heroicons-outline:user-circle',
-    url: 'user',
+    url: '/apps/userRoles/',
   },
 ];
 

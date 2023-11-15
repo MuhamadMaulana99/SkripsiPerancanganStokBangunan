@@ -3,7 +3,6 @@ import Input from '@mui/material/Input';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import { showMessage } from 'app/store/fuse/messageSlice';
 import axios from 'axios';
@@ -245,11 +244,9 @@ function BarangMasukHeader(props) {
           animate={{ opacity: 1, x: 0, transition: { delay: 0.2 } }}
         >
           <Button
-            className=""
-            component={Link}
-            to="/apps/e-commerce/products/new"
             variant="contained"
             color="secondary"
+            onClick={handleClickOpen}
             startIcon={<FuseSvgIcon>heroicons-outline:plus</FuseSvgIcon>}
           >
             Add

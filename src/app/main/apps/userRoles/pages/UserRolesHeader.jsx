@@ -17,7 +17,7 @@ import {
   TextField,
 } from '@mui/material';
 
-function SupllayerHeader(props) {
+function UserRolesHeader(props) {
   const dispatch = useDispatch();
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
@@ -32,7 +32,7 @@ function SupllayerHeader(props) {
     alamat,
   };
   // const api = `https://652d2c32f9afa8ef4b26e7f0.mockapi.io/tokoBangunan/v1/suplayer`;
-  const api = `http://localhost:3000/suplayer`;
+  const api = `http://localhost:3000/userRoles`;
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -156,7 +156,7 @@ function SupllayerHeader(props) {
         delay={300}
         className="text-24 md:text-32 font-extrabold tracking-tight"
       >
-        Master Suplayer
+        Data Suplayer
       </Typography>
 
       <div className="flex flex-col w-full sm:w-auto sm:flex-row space-y-16 sm:space-y-0 flex-1 items-center justify-end space-x-8">
@@ -201,4 +201,4 @@ function SupllayerHeader(props) {
   );
 }
 
-export default SupllayerHeader;
+export default UserRolesHeader;
