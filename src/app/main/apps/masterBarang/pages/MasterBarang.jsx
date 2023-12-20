@@ -14,7 +14,7 @@ function MasterBarang() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   // const api = `https://652d2c32f9afa8ef4b26e7f0.mockapi.io/tokoBangunan/v1/suplayer`;
-  const api = `http://localhost:3000/suplayer`;
+  const api = `http://localhost:3000/mstBarangs`;
   const isMobile = useThemeMediaQuery((theme) => theme.breakpoints.down('lg'));
   const getData = async () => {
     setLoading(true);

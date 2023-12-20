@@ -14,12 +14,14 @@ function BarangMasuk() {
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [dataMasterBarang, setDataMasterBarang] = useState([]);
+  const [dataMasterSuplayer, setDataMasterSuplayer] = useState([]);
   // const api = `https://6530fba34d4c2e3f333c280d.mockapi.io/barang/barang`;
-  const api = `http://localhost:3000/barangMasuk`;
+  const api = `http://localhost:3000`;
   const getData = async () => {
     setLoading(true);
     const response = await axios
-      .get(`${api}`)
+      .get(`${api}/barangMasuk`)
       .then((res) => {
         setData(res?.data);
         setLoading(false);
@@ -59,10 +61,96 @@ function BarangMasuk() {
         console.log(err);
       });
   };
+  const getMasterBarang = () => {
+    setLoading(true);
+    axios
+      .get(`${api}/mstBarangs`)
+      .then((res) => {
+        setDataMasterBarang(res?.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setDataMasterBarang([]);
+        setLoading(false);
+        const errStatus = err?.response?.status;
+        const errMessage = err?.response?.data?.message;
+        let messages = '';
+        if (errStatus === 401) {
+          messages = 'Unauthorized!!';
+          window.location.href = '/login';
+        } else if (errStatus === 500) {
+          messages = 'Server Error!!';
+        } else if (errStatus === 404) {
+          messages = 'Not Found Error!!!';
+        } else if (errStatus === 408) {
+          messages = 'TimeOut Error!!';
+        } else if (errStatus === 400) {
+          messages = errMessage;
+        } else {
+          messages = 'Something Wrong!!';
+        }
+        dispatch(
+          showMessage({
+            message: messages,
+            autoHideDuration: 2000,
+            anchorOrigin: {
+              vertical: 'top',
+              horizontal: 'center',
+            },
+            variant: 'error',
+          })
+        );
+        console.log(err);
+      });
+  };
+  const getMasterSupllayer = () => {
+    setLoading(true);
+    axios
+      .get(`${api}/suplayer`)
+      .then((res) => {
+        setDataMasterSuplayer(res?.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setDataMasterSuplayer([]);
+        setLoading(false);
+        const errStatus = err?.response?.status;
+        const errMessage = err?.response?.data?.message;
+        let messages = '';
+        if (errStatus === 401) {
+          messages = 'Unauthorized!!';
+          window.location.href = '/login';
+        } else if (errStatus === 500) {
+          messages = 'Server Error!!';
+        } else if (errStatus === 404) {
+          messages = 'Not Found Error!!!';
+        } else if (errStatus === 408) {
+          messages = 'TimeOut Error!!';
+        } else if (errStatus === 400) {
+          messages = errMessage;
+        } else {
+          messages = 'Something Wrong!!';
+        }
+        dispatch(
+          showMessage({
+            message: messages,
+            autoHideDuration: 2000,
+            anchorOrigin: {
+              vertical: 'top',
+              horizontal: 'center',
+            },
+            variant: 'error',
+          })
+        );
+        console.log(err);
+      });
+  };
   useEffect(() => {
     let isUnmout = false;
     if (!isUnmout) {
       getData();
+      getMasterBarang();
+      getMasterSupllayer();
     }
     return () => {
       isUnmout = true;
@@ -72,8 +160,24 @@ function BarangMasuk() {
 
   return (
     <FusePageCarded
-      header={<BarangMasukHeader getData={getData} data={data} loading={loading} />}
-      content={<BarangMasukTable getData={getData} data={data} loading={loading} />}
+      header={
+        <BarangMasukHeader
+          getData={getData}
+          data={data}
+          loading={loading}
+          dataMasterBarang={dataMasterBarang}
+          dataMasterSuplayer={dataMasterSuplayer}
+        />
+      }
+      content={
+        <BarangMasukTable
+          getData={getData}
+          data={data}
+          loading={loading}
+          dataMasterBarang={dataMasterBarang}
+          dataMasterSuplayer={dataMasterSuplayer}
+        />
+      }
       scroll={isMobile ? 'normal' : 'content'}
     />
   );

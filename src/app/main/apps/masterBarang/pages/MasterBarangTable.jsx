@@ -29,22 +29,15 @@ import FuseLoading from '@fuse/core/FuseLoading';
 const columns = [
   { id: 'no', label: 'NO', minWidth: 170, align: 'left' },
   {
-    id: 'name',
-    label: 'Nama',
+    id: 'kodeBarang',
+    label: 'Kode Barang',
     minWidth: 170,
     align: 'left',
     // format: (value) => value.toLocaleString('en-US'),
   },
   {
-    id: 'noTlp',
-    label: 'No Telephone',
-    minWidth: 170,
-    align: 'left',
-    // format: (value) => value.toLocaleString('en-US'),
-  },
-  {
-    id: 'alamat',
-    label: 'Alamat',
+    id: 'namaBarang',
+    label: 'Nama Barang',
     minWidth: 170,
     align: 'left',
     // format: (value) => value.toLocaleString('en-US'),
@@ -58,26 +51,25 @@ const columns = [
   },
 ];
 
-function createData(no, id, name, noTlp, alamat) {
-  return { no, id, name, noTlp, alamat };
+function createData(no, id, kodeBarang, namaBarang) {
+  return { no, id, kodeBarang, namaBarang };
 }
 
 export default function MasterBarangTable(props) {
   const dispatch = useDispatch();
   const [data, setData] = React.useState([]);
   const [dataEdit, setDataEdit] = React.useState({
-    name: '',
-    noTlp: '',
-    alamat: '',
+    kodeBarang: '',
+    namaBarang: '',
   });
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  // const api = `https://652d2c32f9afa8ef4b26e7f0.mockapi.io/tokoBangunan/v1/suplayer`;
-  const api = `http://localhost:3000/suplayer`;
+  // const api = `https://652d2c32f9afa8ef4b26e7f0.mockapi.io/tokoBangunan/v1/mstBarangs`;
+  const api = `http://localhost:3000/mstBarangs`;
   const rows = props?.data?.map((item, index) =>
-    createData(index + 1, item?.id, item?.name, item?.noTlp, item?.alamat)
+    createData(index + 1, item?.id, item?.kodeBarang, item?.namaBarang)
   );
 
   const handleChangePage = (event, newPage) => {
@@ -97,9 +89,8 @@ export default function MasterBarangTable(props) {
   };
 
   const body = {
-    name: dataEdit?.name,
-    noTlp: dataEdit?.noTlp,
-    alamat: dataEdit?.alamat,
+    kodeBarang: dataEdit?.kodeBarang,
+    namaBarang: dataEdit?.namaBarang,
   };
 
   const HandelEdit = (id) => {
@@ -238,8 +229,8 @@ export default function MasterBarangTable(props) {
               {/* <div> */}
               <div>
                 <TextField
-                  value={dataEdit?.name}
-                  onChange={(e) => setDataEdit({ ...dataEdit, name: e.target.value })}
+                  value={dataEdit?.kodeBarang}
+                  onChange={(e) => setDataEdit({ ...dataEdit, kodeBarang: e.target.value })}
                   id="outlined-basic"
                   label="Nama"
                   variant="outlined"
@@ -247,8 +238,8 @@ export default function MasterBarangTable(props) {
               </div>
               <div>
                 <TextField
-                  value={dataEdit?.noTlp}
-                  onChange={(e) => setDataEdit({ ...dataEdit, noTlp: e.target.value })}
+                  value={dataEdit?.namaBarang}
+                  onChange={(e) => setDataEdit({ ...dataEdit, namaBarang: e.target.value })}
                   id="outlined-basic"
                   label="No Tlp"
                   variant="outlined"
@@ -296,10 +287,8 @@ export default function MasterBarangTable(props) {
               return (
                 <TableRow key={row.id} hover role="checkbox" tabIndex={-1}>
                   <TableCell>{index + 1}</TableCell>
-                  <TableCell>{row?.name}</TableCell>
-                  <TableCell>{row?.noTlp}</TableCell>
-                  <TableCell>{row?.alamat}</TableCell>
-
+                  <TableCell>{row?.kodeBarang}</TableCell>
+                  <TableCell>{row?.namaBarang}</TableCell>
                   <TableCell>
                     <div className="flex justify-center">
                       <div>

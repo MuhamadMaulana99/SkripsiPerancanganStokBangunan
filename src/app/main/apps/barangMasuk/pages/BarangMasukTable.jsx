@@ -24,8 +24,13 @@ import {
   IconButton,
   TextField,
 } from '@mui/material';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import FuseLoading from '@fuse/core/FuseLoading';
 import Button from '@mui/material/Button';
+import moment from 'moment';
+import dayjs from 'dayjs';
 
 const top100Films = [
   { label: 'KG', year: 1994 },
@@ -45,6 +50,13 @@ const columns = [
   {
     id: 'namaBarang',
     label: 'Nama Barang',
+    minWidth: 170,
+    align: 'left',
+    // format: (value) => value.toLocaleString('en-US'),
+  },
+  {
+    id: 'hargaBarang',
+    label: 'Harga Barang',
     minWidth: 170,
     align: 'left',
     // format: (value) => value.toLocaleString('en-US'),
@@ -71,6 +83,13 @@ const columns = [
     // format: (value) => value.toLocaleString('en-US'),
   },
   {
+    id: 'satuan',
+    label: 'Stauan',
+    minWidth: 170,
+    align: 'left',
+    // format: (value) => value.toLocaleString('en-US'),
+  },
+  {
     id: 'aksi',
     label: 'Aksi',
     minWidth: 170,
@@ -79,21 +98,34 @@ const columns = [
   },
 ];
 
-function createData(no, id, kodeBarang, namaBarang, tglMasuk, supllayer, jumlahMasuk) {
-  return { no, id, kodeBarang, namaBarang, tglMasuk, supllayer, jumlahMasuk };
+function createData(
+  no,
+  id,
+  kodeBarang,
+  namaBarang,
+  hargaBarang,
+  tglMasuk,
+  supllayer,
+  jumlahMasuk,
+  satuan
+) {
+  return { no, id, kodeBarang, namaBarang, hargaBarang, tglMasuk, supllayer, jumlahMasuk, satuan };
 }
 
 export default function BarangMasukTable(props) {
+  const dataMasterSuplayer = props?.dataMasterSuplayer;
+  const dataMasterBarang = props?.dataMasterBarang;
   // console.log(props, 'pp')
   const dispatch = useDispatch();
   const [data, setData] = React.useState([]);
   const [dataEdit, setDataEdit] = React.useState({
     kodeBarang: '',
     namaBarang: '',
-    tglMasuk: '',
-    jenisBarang: '',
     supllayer: '',
     jumlahMasuk: '',
+    hargaBarang: '',
+    tglMasuk: null,
+    satuan: null,
   });
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
@@ -107,9 +139,11 @@ export default function BarangMasukTable(props) {
       item?.id,
       item?.kodeBarang,
       item?.namaBarang,
+      item?.hargaBarang,
       item?.tglMasuk,
       item?.supllayer,
-      item?.jumlahMasuk
+      item?.jumlahMasuk,
+      item?.satuan
     )
   );
 
@@ -130,13 +164,15 @@ export default function BarangMasukTable(props) {
   };
 
   const body = {
-    kodeBarang: dataEdit?.kodeBarang,
+    kodeBarang: JSON.stringify(dataEdit?.kodeBarang),
     namaBarang: dataEdit?.namaBarang,
+    hargaBarang: dataEdit?.hargaBarang,
     tglMasuk: dataEdit?.tglMasuk,
-    jenisBarang: dataEdit?.jenisBarang,
-    supllayer: dataEdit?.supllayer,
+    supllayer: JSON.stringify(dataEdit?.supllayer),
     jumlahMasuk: dataEdit?.jumlahMasuk,
+    satuan: JSON.stringify(dataEdit?.satuan),
   };
+  console.log(body, 'body');
 
   const HandelEdit = (id) => {
     setLoading(true);
@@ -273,19 +309,32 @@ export default function BarangMasukTable(props) {
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             <div className="grid grid-cols-2 gap-16 mt-10 mb-10">
-              {/* <div> */}
-              <div>
-                <TextField
+              <div className="col-span-2">
+                <Autocomplete
+                  disablePortal
+                  fullWidth
                   value={dataEdit?.kodeBarang}
-                  onChange={(e) => setDataEdit({ ...dataEdit, kodeBarang: e.target.value })}
-                  id="outlined-basic"
-                  label="Kode Barang"
-                  variant="outlined"
+                  getOptionLabel={(option) => option.kodeBarang}
+                  onChange={(_, newValue) => {
+                    if (newValue) {
+                      setDataEdit({
+                        ...dataEdit,
+                        kodeBarang: newValue,
+                        namaBarang: newValue?.namaBarang,
+                      });
+                    }
+                  }}
+                  id="combo-box-demo"
+                  options={dataMasterBarang}
+                  // options={top100Films}
+                  sx={{ width: 300 }}
+                  renderInput={(params) => <TextField {...params} label="Kode Barang" />}
                 />
               </div>
               <div>
                 <TextField
                   value={dataEdit?.namaBarang}
+                  disabled
                   onChange={(e) => setDataEdit({ ...dataEdit, namaBarang: e.target.value })}
                   id="outlined-basic"
                   label="Nama Barang"
@@ -294,50 +343,59 @@ export default function BarangMasukTable(props) {
               </div>
               <div>
                 <TextField
-                  value={dataEdit?.tglMasuk}
-                  onChange={(e) => setDataEdit({ ...dataEdit, tglMasuk: e.target.value })}
+                  value={dataEdit?.hargaBarang}
+                  onChange={(e) => setDataEdit({ ...dataEdit, hargaBarang: e.target.value })}
                   id="outlined-basic"
-                  label="Tanggal Masuk"
+                  label="Harga Barang"
                   variant="outlined"
                 />
               </div>
-              {/* </div> */}
-              {/* <div> */}
               <div>
                 <TextField
-                  value={dataEdit?.supllayer}
-                  onChange={(e) => setDataEdit({ ...dataEdit, supllayer: e.target.value })}
+                  value={dataEdit?.jumlahMasuk}
+                  onChange={(e) => setDataEdit({ ...dataEdit, jumlahMasuk: e.target.value })}
                   id="outlined-basic"
                   type="number"
-                  label="Tanggal Masuk"
+                  label="Jummlah Masuk"
                   variant="outlined"
+                />
+              </div>
+              <div>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    label="Select Date"
+                    value={dayjs(dataEdit.tglMasuk)}
+                    onChange={(date) => setDataEdit({ ...dataEdit, tglMasuk: date })}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </LocalizationProvider>
+              </div>
+              <div className="col-span-2">
+                <Autocomplete
+                  disablePortal
+                  fullWidth
+                  value={dataEdit?.satuan}
+                  onChange={(_, newValue) => setDataEdit({ ...dataEdit, satuan: newValue })}
+                  id="combo-box-demo"
+                  options={top100Films}
+                  sx={{ width: 300 }}
+                  renderInput={(params) => <TextField {...params} label="Satuan" />}
                 />
               </div>
               <div className="col-span-2">
                 <Autocomplete
                   disablePortal
                   fullWidth
-                  value={dataEdit?.jumlahMasuk}
-                  onChange={(_, newValue) => {
-                    setDataEdit({ ...dataEdit, jumlahMasuk: newValue });
-                  }}
+                  value={dataEdit?.supllayer}
+                  getOptionLabel={(option) => option.name}
+                  onChange={(_, newValue) => setDataEdit({ ...dataEdit, supllayer: newValue })}
                   id="combo-box-demo"
-                  options={top100Films}
+                  options={dataMasterSuplayer}
+                  // options={top100Films}
                   sx={{ width: 300 }}
-                  renderInput={(params) => <TextField {...params} label="jumlahMasuk" />}
+                  renderInput={(params) => <TextField {...params} label="Supllayer" />}
                 />
               </div>
-              <div className="col-span-2 ">
-                <TextField
-                  fullWidth
-                  value={dataEdit?.jenisBarang}
-                  onChange={(e) => setDataEdit({ ...dataEdit, jenisBarang: e.target.value })}
-                  id="outlined-basic"
-                  label="Tanggal Masuk"
-                  variant="outlined"
-                />
-              </div>
-              {/* </div> */}
             </div>
           </DialogContentText>
         </DialogContent>
@@ -371,11 +429,13 @@ export default function BarangMasukTable(props) {
               return (
                 <TableRow key={row.id} hover role="checkbox" tabIndex={-1}>
                   <TableCell>{index + 1}.</TableCell>
-                  <TableCell>{row?.kodeBarang}</TableCell>
+                  <TableCell>{row?.kodeBarang?.kodeBarang}</TableCell>
                   <TableCell>{row?.namaBarang}</TableCell>
-                  <TableCell>{row?.tglMasuk}</TableCell>
-                  <TableCell>{row?.supllayer}</TableCell>
+                  <TableCell>{row?.hargaBarang}</TableCell>
+                  <TableCell>{moment(row?.tglMasuk).format('LL')}</TableCell>
+                  <TableCell>{row?.supllayer?.name}</TableCell>
                   <TableCell>{row?.jumlahMasuk}</TableCell>
+                  <TableCell>{row?.satuan?.label}</TableCell>
                   <TableCell>
                     <div className="flex justify-center">
                       <div>

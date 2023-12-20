@@ -22,17 +22,17 @@ function MasterBarangHeader(props) {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
-  const [name, setname] = useState('');
-  const [noTlp, setnoTlp] = useState('');
+  const [namaBarang, setnamaBarang] = useState('');
+  const [kodeBarang, setkodeBarang] = useState('');
   const [alamat, setalamat] = useState('');
 
   const body = {
-    name,
-    noTlp,
+    namaBarang,
+    kodeBarang,
     alamat,
   };
-  // const api = `https://652d2c32f9afa8ef4b26e7f0.mockapi.io/tokoBangunan/v1/suplayer`;
-  const api = `http://localhost:3000/suplayer`;
+  // const api = `https://652d2c32f9afa8ef4b26e7f0.mockapi.io/tokoBangunan/v1/mstBarangs`;
+  const api = `http://localhost:3000/mstBarangs`;
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -112,28 +112,19 @@ function MasterBarangHeader(props) {
             <div className="grid grid-cols-2 gap-16 mt-10 mb-10">
               <div>
                 <TextField
-                  value={name}
-                  onChange={(e) => setname(e.target.value)}
+                  value={kodeBarang}
+                  onChange={(e) => setkodeBarang(e.target.value)}
+                  id="outlined-basic"
+                  label="No Tlp"
+                  variant="outlined"
+                />
+              </div>
+              <div>
+                <TextField
+                  value={namaBarang}
+                  onChange={(e) => setnamaBarang(e.target.value)}
                   id="outlined-basic"
                   label="Nama"
-                  variant="outlined"
-                />
-              </div>
-              <div>
-                <TextField
-                  value={noTlp}
-                  onChange={(e) => setnoTlp(e.target.value)}
-                  id="outlined-basic"
-                  label="No Tlp"
-                  variant="outlined"
-                />
-              </div>
-              <div>
-                <TextField
-                  value={alamat}
-                  onChange={(e) => setalamat(e.target.value)}
-                  id="outlined-basic"
-                  label="No Tlp"
                   variant="outlined"
                 />
               </div>
