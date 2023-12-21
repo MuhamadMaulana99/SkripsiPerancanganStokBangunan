@@ -70,14 +70,14 @@ function UserMenu(props) {
               <ListItemIcon className="min-w-40">
                 <FuseSvgIcon>heroicons-outline:lock-closed</FuseSvgIcon>
               </ListItemIcon>
-              <ListItemText primary="Sign In" />
+              <ListItemText primary="Log out" />
             </MenuItem>
-            <MenuItem component={Link} to="/sign-up" role="button">
+            {/* <MenuItem component={Link} to="/sign-up" role="button">
               <ListItemIcon className="min-w-40">
                 <FuseSvgIcon>heroicons-outline:user-add </FuseSvgIcon>
               </ListItemIcon>
               <ListItemText primary="Sign up" />
-            </MenuItem>
+            </MenuItem> */}
           </>
         ) : (
           <>

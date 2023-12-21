@@ -13,7 +13,10 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { showMessage } from 'app/store/fuse/messageSlice';
-import { TextField } from '@mui/material';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { Autocomplete, TextField } from '@mui/material';
 
 const top100Films = [
   { label: 'KG', year: 1994 },
@@ -23,18 +26,19 @@ const top100Films = [
 
 function BarangKeluarHeader(props) {
   const dispatch = useDispatch();
+  const { dataMasterBarang } = props;
   const [data, setData] = React.useState({});
   const [loading, setLoading] = React.useState(true);
   const [open, setOpen] = React.useState(false);
-  const [kodeBarang, setkodeBarang] = useState('');
+  const [kodeBarang, setkodeBarang] = useState(null);
   const [namaBarang, setnamaBarang] = useState('');
-  const [tglKeluar, settglKeluar] = useState('');
+  const [tglKeluar, settglKeluar] = useState(null);
   const [jmlKeluar, setjmlKeluar] = useState('');
   const [stokBarang, setstokBarang] = useState(0);
   const [satuan, setsatuan] = useState(null);
 
   const body = {
-    kodeBarang,
+    kodeBarang: JSON.stringify(kodeBarang),
     namaBarang,
     tglKeluar,
     jmlKeluar,
@@ -124,43 +128,64 @@ function BarangKeluarHeader(props) {
         <DialogTitle id="alert-dialog-title">Tambah Barang</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            <div className="grid grid-cols-2 gap-16 mt-10 mb-10">
-              <div>
-                <TextField
-                  value={kodeBarang}
-                  onChange={(e) => setkodeBarang(e.target.value)}
-                  id="outlined-basic"
-                  label="Kode Barang"
-                  variant="outlined"
-                />
+            <div className="m-10">
+              <div className="flex justify-between w-full mb-10">
+                <div>
+                  <Autocomplete
+                    disablePortal
+                    value={kodeBarang}
+                    getOptionLabel={(option) => option.kodeBarang}
+                    onChange={(_, newValue) => {
+                      if (newValue) {
+                        setkodeBarang(newValue);
+                        setnamaBarang(newValue?.namaBarang);
+                      } else {
+                        setkodeBarang(null);
+                        setnamaBarang('');
+                      }
+                    }}
+                    id="combo-box-demo"
+                    options={dataMasterBarang}
+                    // options={top100Films}
+                    sx={{ width: 220 }}
+                    renderInput={(params) => <TextField {...params} label="Kode Barang" />}
+                  />
+                </div>
+                <div>
+                  <TextField
+                    value={namaBarang}
+                    onChange={(e) => setnamaBarang(e.target.value)}
+                    id="outlined-basic"
+                    label="Nama Barang"
+                    variant="outlined"
+                  />
+                </div>
               </div>
-              <div>
-                <TextField
-                  value={namaBarang}
-                  onChange={(e) => setnamaBarang(e.target.value)}
-                  id="outlined-basic"
-                  label="Nama Barang"
-                  variant="outlined"
-                />
-              </div>
-              <div>
-                <TextField
-                  value={tglKeluar}
-                  onChange={(e) => settglKeluar(e.target.value)}
-                  id="outlined-basic"
-                  label="Tanggal Keluar"
-                  variant="outlined"
-                />
-              </div>
-              <div className="col-span-2 ">
-                <TextField
-                  fullWidth
-                  value={jmlKeluar}
-                  onChange={(e) => setjmlKeluar(e.target.value)}
-                  id="outlined-basic"
-                  label="jmlKeluar"
-                  variant="outlined"
-                />
+              <div className="flex justify-between w-full gap-10">
+                <div className="">
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                      label="Select Date"
+                      value={tglKeluar}
+                      onChange={(date) => {
+                        settglKeluar(date);
+                      }}
+                      sx={{ width: 220 }}
+                      renderInput={(params) => <TextField {...params} />}
+                    />
+                  </LocalizationProvider>
+                </div>
+                <div className="">
+                  <TextField
+                    fullWidth
+                    value={jmlKeluar}
+                    onChange={(e) => setjmlKeluar(e.target.value)}
+                    id="outlined-basic"
+                    label="jmlKeluar"
+                    type="number"
+                    variant="outlined"
+                  />
+                </div>
               </div>
             </div>
           </DialogContentText>

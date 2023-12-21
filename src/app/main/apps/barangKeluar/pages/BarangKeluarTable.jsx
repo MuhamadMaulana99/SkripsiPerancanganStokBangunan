@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import * as React from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -10,11 +9,15 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import { showMessage } from 'app/store/fuse/messageSlice';
 import { useDispatch } from 'react-redux';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import axios from 'axios';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import {
   Alert,
+  Autocomplete,
   Dialog,
   DialogActions,
   DialogContent,
@@ -25,6 +28,8 @@ import {
 } from '@mui/material';
 import FuseLoading from '@fuse/core/FuseLoading';
 import Button from '@mui/material/Button';
+import dayjs from 'dayjs';
+import { useState } from 'react';
 
 const top100Films = [
   { label: 'KG', year: 1994 },
@@ -97,19 +102,19 @@ function createData(no, id, kodeBarang, namaBarang, jmlKeluar, tglKeluar) {
 
 export default function BarangKeluarTable(props) {
   const dispatch = useDispatch();
-  const [data, setData] = React.useState([]);
-  const [dataEdit, setDataEdit] = React.useState({
-    kodeBarang: '',
+  const { dataMasterBarang } = props;
+  console.log(dataMasterBarang, 'dataMasterBarang');
+  const [data, setData] = useState([]);
+  const [dataEdit, setDataEdit] = useState({
+    kodeBarang: null,
     namaBarang: '',
     jmlKeluar: '',
-    deskripsi: '',
-    stokBarang: '',
-    satuan: '',
+    tglKeluar: null,
   });
-  const [open, setOpen] = React.useState(false);
-  const [loading, setLoading] = React.useState(true);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   // const api = `https://652d2c32f9afa8ef4b26e7f0.mockapi.io/tokoBangunan/v1/suplayer/1/tokoBangunan`;
   const api = `http://localhost:3000/barangKeluar`;
   const rows = props?.data?.map((item, index) =>
@@ -122,7 +127,7 @@ export default function BarangKeluarTable(props) {
       item?.tglKeluar
     )
   );
-  console.log(rows, 'rr');
+  console.log(dataEdit, 'dataEdit');
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -141,11 +146,12 @@ export default function BarangKeluarTable(props) {
   };
 
   const body = {
-    kodeBarang: dataEdit?.kodeBarang,
+    kodeBarang: JSON.stringify(dataEdit?.kodeBarang),
     namaBarang: dataEdit?.namaBarang,
     jmlKeluar: dataEdit?.jmlKeluar,
     tglKeluar: dataEdit?.tglKeluar,
   };
+  // console.log(dataEdit, 'dataEdit');
 
   const HandelEdit = (id) => {
     setLoading(true);
@@ -281,47 +287,73 @@ export default function BarangKeluarTable(props) {
         <DialogTitle id="alert-dialog-title">Edit Barang</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            <div className="grid grid-cols-2 gap-16 mt-10 mb-10">
-              {/* <div> */}
-              <div>
-                <TextField
-                  value={dataEdit?.kodeBarang}
-                  onChange={(e) => setDataEdit({ ...dataEdit, kodeBarang: e.target.value })}
-                  id="outlined-basic"
-                  label="Kode Barang"
-                  variant="outlined"
-                />
+            <div className="m-10">
+              <div className="flex justify-between w-full mb-10">
+                <div>
+                  <Autocomplete
+                    disablePortal
+                    value={dataEdit?.kodeBarang}
+                    getOptionLabel={(option) => option.kodeBarang}
+                    onChange={(_, newValue) => {
+                      if (newValue) {
+                        setDataEdit({
+                          ...dataEdit,
+                          kodeBarang: newValue,
+                          namaBarang: newValue?.namaBarang,
+                        });
+                      } else {
+                        // setDataEdit(null);
+                        // setDataEdit('');
+                        setDataEdit({ ...dataEdit, kodeBarang: null, namaBarang: '' });
+                      }
+                    }}
+                    id="combo-box-demo"
+                    options={dataMasterBarang}
+                    // options={top100Films}
+                    sx={{ width: 220 }}
+                    renderInput={(params) => <TextField {...params} label="Kode Barang" />}
+                  />
+                </div>
+                <div>
+                  <TextField
+                    value={dataEdit?.namaBarang}
+                    disabled
+                    onFocus
+                    // onChange={(e) => setDataEdit({ ...dataEdit, namaBarang: e.target.value })}
+                    id="outlined-basic"
+                    label="Nama Barang"
+                    variant="outlined"
+                  />
+                </div>
               </div>
-              <div>
-                <TextField
-                  value={dataEdit?.namaBarang}
-                  onChange={(e) => setDataEdit({ ...dataEdit, namaBarang: e.target.value })}
-                  id="outlined-basic"
-                  label="Nama Barang"
-                  variant="outlined"
-                />
+              <div className="flex justify-between w-full gap-10">
+                <div className="">
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                      label="Select Date"
+                      value={dayjs(dataEdit?.tglKeluar)}
+                      onChange={(date) => {
+                        if (date) {
+                          setDataEdit({ ...dataEdit, tglKeluar: date });
+                        }
+                      }}
+                      sx={{ width: 220 }}
+                      renderInput={(params) => <TextField {...params} />}
+                    />
+                  </LocalizationProvider>
+                </div>
+                <div className="">
+                  <TextField
+                    fullWidth
+                    value={dataEdit?.jmlKeluar}
+                    onChange={(e) => setDataEdit({ ...dataEdit, jmlKeluar: e.target.value })}
+                    id="outlined-basic"
+                    label="jmlKeluar"
+                    type="number"
+                    variant="outlined"
+                  />
+                </div>
               </div>
-              <div>
-                <TextField
-                  value={dataEdit?.tglKeluar}
-                  onChange={(e) => setDataEdit({ ...dataEdit, tglKeluar: e.target.value })}
-                  id="outlined-basic"
-                  type="number"
-                  label="Stok Barang"
-                  variant="outlined"
-                />
-              </div>
-              <div className="col-span-2 ">
-                <TextField
-                  fullWidth
-                  value={dataEdit?.jmlKeluar}
-                  onChange={(e) => setDataEdit({ ...dataEdit, jmlKeluar: e.target.value })}
-                  id="outlined-basic"
-                  label="Desskripsi"
-                  variant="outlined"
-                />
-              </div>
-              {/* </div> */}
             </div>
           </DialogContentText>
         </DialogContent>
@@ -355,7 +387,7 @@ export default function BarangKeluarTable(props) {
               return (
                 <TableRow key={row.id} hover role="checkbox" tabIndex={-1}>
                   <TableCell>{index + 1}.</TableCell>
-                  <TableCell>{row?.kodeBarang}</TableCell>
+                  <TableCell>{row?.kodeBarang?.kodeBarang}</TableCell>
                   <TableCell>{row?.namaBarang}</TableCell>
                   <TableCell>{row?.tglKeluar}</TableCell>
                   <TableCell>{row?.jmlKeluar}</TableCell>

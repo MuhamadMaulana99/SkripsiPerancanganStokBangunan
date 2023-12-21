@@ -9,6 +9,7 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 import {
+  Autocomplete,
   Dialog,
   DialogActions,
   DialogContent,
@@ -17,22 +18,29 @@ import {
   TextField,
 } from '@mui/material';
 
+const role = [
+  { roleUser: 'Super Admin', id: 1 },
+  { roleUser: 'Admin', id: 2 },
+  { roleUser: 'User', id: 3 },
+];
+
 function UserRolesHeader(props) {
   const dispatch = useDispatch();
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
-  const [name, setname] = useState('');
-  const [noTlp, setnoTlp] = useState('');
-  const [alamat, setalamat] = useState('');
+  const [username, setusername] = useState('');
+  const [password, setpassword] = useState('');
+  const [userRoles, setuserRoles] = useState(null);
+  console.log(userRoles);
 
   const body = {
-    name,
-    noTlp,
-    alamat,
+    username,
+    password,
+    userRoles: JSON.stringify(userRoles),
   };
   // const api = `https://652d2c32f9afa8ef4b26e7f0.mockapi.io/tokoBangunan/v1/suplayer`;
-  const api = `http://localhost:3000/userRoles`;
+  const api = `http://localhost:3000`;
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -44,8 +52,8 @@ function UserRolesHeader(props) {
   const HandelSubmit = () => {
     setLoading(true);
     axios
-      .post(`${api}`, body)
-      .then((res) => {
+      .post(`${api}/register`, body)
+      .then((_res) => {
         // setData(res?.data);
         props.getData();
         handleClose();
@@ -109,31 +117,41 @@ function UserRolesHeader(props) {
         <DialogTitle id="alert-dialog-title">Tambah Barang</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
+            <div className="mt-10">
+              <Autocomplete
+                disablePortal
+                fullWidth
+                id="combo-box-demo"
+                value={userRoles}
+                getOptionLabel={(option) => option.roleUser}
+                onChange={(_, newValue) => {
+                  if (newValue) {
+                    setuserRoles(newValue);
+                  } else {
+                    setuserRoles(null);
+                  }
+                }}
+                options={role}
+                sx={{ width: '100%' }}
+                renderInput={(params) => <TextField {...params} label="Role" />}
+              />
+            </div>
             <div className="grid grid-cols-2 gap-16 mt-10 mb-10">
               <div>
                 <TextField
-                  value={name}
-                  onChange={(e) => setname(e.target.value)}
+                  value={username}
+                  onChange={(e) => setusername(e.target.value)}
                   id="outlined-basic"
-                  label="Nama"
+                  label="Name"
                   variant="outlined"
                 />
               </div>
               <div>
                 <TextField
-                  value={noTlp}
-                  onChange={(e) => setnoTlp(e.target.value)}
+                  value={password}
+                  onChange={(e) => setpassword(e.target.value)}
                   id="outlined-basic"
-                  label="No Tlp"
-                  variant="outlined"
-                />
-              </div>
-              <div>
-                <TextField
-                  value={alamat}
-                  onChange={(e) => setalamat(e.target.value)}
-                  id="outlined-basic"
-                  label="No Tlp"
+                  label="Password"
                   variant="outlined"
                 />
               </div>
@@ -156,7 +174,7 @@ function UserRolesHeader(props) {
         delay={300}
         className="text-24 md:text-32 font-extrabold tracking-tight"
       >
-        Data Suplayer
+        Data User
       </Typography>
 
       <div className="flex flex-col w-full sm:w-auto sm:flex-row space-y-16 sm:space-y-0 flex-1 items-center justify-end space-x-8">

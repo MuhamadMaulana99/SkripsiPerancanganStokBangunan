@@ -30,7 +30,7 @@ function DataBarangHeader(props) {
   const [namaBarang, setnamaBarang] = useState('');
   const [hargaBarang, sethargaBarang] = useState('');
   const [deskripsi, setdeskripsi] = useState('');
-  const [stokBarang, setstokBarang] = useState(0);
+  const [jumlahMasuk, setjumlahMasuk] = useState(0);
   const [satuan, setsatuan] = useState(null);
 
   const body = {
@@ -38,7 +38,7 @@ function DataBarangHeader(props) {
     namaBarang,
     hargaBarang,
     deskripsi,
-    stokBarang,
+    jumlahMasuk,
     satuan: JSON.stringify(satuan),
   };
   // const api = `https://652d2c32f9afa8ef4b26e7f0.mockapi.io/tokoBangunan/v1/suplayer/1/tokoBangunan`;
@@ -54,7 +54,7 @@ function DataBarangHeader(props) {
     setnamaBarang('');
     sethargaBarang('');
     setdeskripsi('');
-    setstokBarang(0);
+    setjumlahMasuk(0);
   };
   const HandelSubmit = () => {
     setLoading(true);
@@ -154,8 +154,8 @@ function DataBarangHeader(props) {
               </div>
               <div>
                 <TextField
-                  value={stokBarang}
-                  onChange={(e) => setstokBarang(e.target.value)}
+                  value={jumlahMasuk}
+                  onChange={(e) => setjumlahMasuk(e.target.value)}
                   id="outlined-basic"
                   type="number"
                   label="Stok Barang"
@@ -199,7 +199,7 @@ function DataBarangHeader(props) {
               kodeBarang === '' ||
               namaBarang === '' ||
               hargaBarang === '' ||
-              stokBarang <= 0 ||
+              jumlahMasuk <= 0 ||
               deskripsi === ''
             }
             onClick={HandelSubmit}

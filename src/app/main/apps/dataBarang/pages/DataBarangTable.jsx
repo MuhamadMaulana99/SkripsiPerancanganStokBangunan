@@ -57,7 +57,7 @@ const columns = [
     // format: (value) => value.toLocaleString('en-US'),
   },
   {
-    id: 'stokBarang',
+    id: 'jumlahMasuk',
     label: 'Stok Barang',
     minWidth: 170,
     align: 'left',
@@ -86,8 +86,8 @@ const columns = [
   },
 ];
 
-function createData(no, id, kodeBarang, namaBarang, hargaBarang, deskripsi, stokBarang, satuan) {
-  return { no, id, kodeBarang, namaBarang, hargaBarang, deskripsi, stokBarang, satuan };
+function createData(no, id, kodeBarang, namaBarang, hargaBarang, deskripsi, jumlahMasuk, satuan) {
+  return { no, id, kodeBarang, namaBarang, hargaBarang, deskripsi, jumlahMasuk, satuan };
 }
 
 export default function DataBarangTable(props) {
@@ -99,7 +99,7 @@ export default function DataBarangTable(props) {
     namaBarang: '',
     hargaBarang: '',
     deskripsi: '',
-    stokBarang: '',
+    jumlahMasuk: '',
     satuan: '',
   });
   const [open, setOpen] = React.useState(false);
@@ -116,7 +116,7 @@ export default function DataBarangTable(props) {
       item?.namaBarang,
       item?.hargaBarang,
       item?.deskripsi,
-      item?.stokBarang,
+      item?.jumlahMasuk,
       item?.satuan
     )
   );
@@ -142,7 +142,7 @@ export default function DataBarangTable(props) {
     namaBarang: dataEdit?.namaBarang,
     hargaBarang: dataEdit?.hargaBarang,
     deskripsi: dataEdit?.deskripsi,
-    stokBarang: dataEdit?.stokBarang,
+    jumlahMasuk: dataEdit?.jumlahMasuk,
     satuan: JSON.stringify(dataEdit?.satuan),
   };
 
@@ -313,8 +313,8 @@ export default function DataBarangTable(props) {
               {/* <div> */}
               <div>
                 <TextField
-                  value={dataEdit?.stokBarang}
-                  onChange={(e) => setDataEdit({ ...dataEdit, stokBarang: e.target.value })}
+                  value={dataEdit?.jumlahMasuk}
+                  onChange={(e) => setDataEdit({ ...dataEdit, jumlahMasuk: e.target.value })}
                   id="outlined-basic"
                   type="number"
                   label="Stok Barang"
@@ -382,7 +382,7 @@ export default function DataBarangTable(props) {
                   <TableCell>{row?.kodeBarang}</TableCell>
                   <TableCell>{row?.namaBarang}</TableCell>
                   <TableCell>{row?.hargaBarang}</TableCell>
-                  <TableCell>{row?.stokBarang}</TableCell>
+                  <TableCell>{row?.jumlahMasuk}</TableCell>
                   <TableCell>{row?.satuan?.label}</TableCell>
                   <TableCell>{row?.deskripsi}</TableCell>
                   <TableCell>

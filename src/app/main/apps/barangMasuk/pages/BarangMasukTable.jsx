@@ -172,7 +172,7 @@ export default function BarangMasukTable(props) {
     jumlahMasuk: dataEdit?.jumlahMasuk,
     satuan: JSON.stringify(dataEdit?.satuan),
   };
-  console.log(body, 'body');
+  // console.log(body, 'body');
 
   const HandelEdit = (id) => {
     setLoading(true);

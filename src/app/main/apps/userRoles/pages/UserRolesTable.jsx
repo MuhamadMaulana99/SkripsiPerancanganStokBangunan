@@ -15,6 +15,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import {
   Alert,
+  Autocomplete,
   Button,
   Dialog,
   DialogActions,
@@ -29,55 +30,56 @@ import FuseLoading from '@fuse/core/FuseLoading';
 const columns = [
   { id: 'no', label: 'NO', minWidth: 170, align: 'left' },
   {
-    id: 'userName',
-    label: 'UserName',
+    id: 'username',
+    label: 'username',
     minWidth: 170,
     align: 'left',
-    // format: (value) => value.toLocaleString('en-US'),
   },
   {
     id: 'password',
-    label: 'No Telephone',
+    label: 'Pasword',
     minWidth: 170,
     align: 'left',
-    // format: (value) => value.toLocaleString('en-US'),
   },
   {
     id: 'userRole',
     label: 'UserRoles',
     minWidth: 170,
     align: 'left',
-    // format: (value) => value.toLocaleString('en-US'),
   },
   {
     id: 'aksi',
     label: 'Aksi',
     minWidth: 170,
     align: 'center',
-    // format: (value) => value.toFixed(2),
   },
 ];
+const role = [
+  { roleUser: 'Super Admin', id: 1 },
+  { roleUser: 'Admin', id: 2 },
+  { roleUser: 'User', id: 3 },
+];
 
-function createData(no, id, userName, password, userRole) {
-  return { no, id, userName, password, userRole };
+function createData(no, id, username, password, userRoles) {
+  return { no, id, username, password, userRoles };
 }
 
 export default function UserRolesTable(props) {
   const dispatch = useDispatch();
   const [data, setData] = React.useState([]);
   const [dataEdit, setDataEdit] = React.useState({
-    userName: '',
+    username: '',
     password: '',
-    userRole: '',
+    userRoles: '',
   });
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   // const api = `https://652d2c32f9afa8ef4b26e7f0.mockapi.io/tokoBangunan/v1/suplayer`;
-  const api = `http://localhost:3000/userRoles`;
+  const api = `http://localhost:3000`;
   const rows = props?.data?.map((item, index) =>
-    createData(index + 1, item?.id, item?.userName, item?.password, item?.userRole)
+    createData(index + 1, item?.id, item?.username, item?.password, item?.userRoles)
   );
 
   const handleChangePage = (event, newPage) => {
@@ -97,15 +99,15 @@ export default function UserRolesTable(props) {
   };
 
   const body = {
-    userName: dataEdit?.userName,
+    username: dataEdit?.username,
     password: dataEdit?.password,
-    userRole: dataEdit?.userRole,
+    userRoles: JSON.stringify(dataEdit?.userRoles),
   };
 
   const HandelEdit = (id) => {
     setLoading(true);
     axios
-      .put(`${api}/${dataEdit?.id}`, body)
+      .put(`${api}/allUser/${dataEdit?.id}`, body)
       .then((res) => {
         props?.getData();
         handleClose();
@@ -157,9 +159,10 @@ export default function UserRolesTable(props) {
       });
   };
   const HandelDelete = (id) => {
+    // console.log(id, 'id');
     setLoading(true);
     axios
-      .delete(`${api}/${id}`)
+      .delete(`${api}/allUser/${id}`)
       .then((res) => {
         props?.getData();
         setLoading(false);
@@ -178,8 +181,8 @@ export default function UserRolesTable(props) {
       .catch((err) => {
         setData([]);
         setLoading(false);
-        const errStatus = err.response.status;
-        const errMessage = err.response.data.message;
+        const errStatus = err?.response?.status;
+        const errMessage = err?.response?.data?.message;
         let messages = '';
         if (errStatus === 401) {
           messages = 'Unauthorized!!';
@@ -234,14 +237,32 @@ export default function UserRolesTable(props) {
         <DialogTitle id="alert-dialog-title">Edit Barang</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
+            <div className="mt-10">
+              <Autocomplete
+                disablePortal
+                fullWidth
+                id="combo-box-demo"
+                value={dataEdit?.userRoles}
+                getOptionLabel={(option) => option.roleUser}
+                onChange={(_, newValue) => {
+                  if (newValue) {
+                    setDataEdit({ ...dataEdit, userRoles: newValue });
+                  } else {
+                    setDataEdit(null);
+                  }
+                }}
+                options={role}
+                sx={{ width: '100%' }}
+                renderInput={(params) => <TextField {...params} label="Role" />}
+              />
+            </div>
             <div className="grid grid-cols-2 gap-16 mt-10 mb-10">
-              {/* <div> */}
               <div>
                 <TextField
-                  value={dataEdit?.userName}
-                  onChange={(e) => setDataEdit({ ...dataEdit, userName: e.target.value })}
+                  value={dataEdit?.username}
+                  onChange={(e) => setDataEdit({ ...dataEdit, username: e.target.value })}
                   id="outlined-basic"
-                  label="Nama"
+                  label="Name"
                   variant="outlined"
                 />
               </div>
@@ -250,16 +271,7 @@ export default function UserRolesTable(props) {
                   value={dataEdit?.password}
                   onChange={(e) => setDataEdit({ ...dataEdit, password: e.target.value })}
                   id="outlined-basic"
-                  label="No Tlp"
-                  variant="outlined"
-                />
-              </div>
-              <div>
-                <TextField
-                  value={dataEdit?.userRole}
-                  onChange={(e) => setDataEdit({ ...dataEdit, userRole: e.target.value })}
-                  id="outlined-basic"
-                  label="userRole"
+                  label="Pasword"
                   variant="outlined"
                 />
               </div>
@@ -296,9 +308,9 @@ export default function UserRolesTable(props) {
               return (
                 <TableRow key={row.id} hover role="checkbox" tabIndex={-1}>
                   <TableCell>{index + 1}</TableCell>
-                  <TableCell>{row?.userName}</TableCell>
+                  <TableCell>{row?.username}</TableCell>
                   <TableCell>{row?.password}</TableCell>
-                  <TableCell>{row?.userRole}</TableCell>
+                  <TableCell>{row?.userRoles?.roleUser}</TableCell>
 
                   <TableCell>
                     <div className="flex justify-center">

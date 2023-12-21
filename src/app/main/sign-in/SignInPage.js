@@ -7,6 +7,7 @@ import Paper from '@mui/material/Paper';
 import { useState } from 'react';
 import { showMessage } from 'app/store/fuse/messageSlice';
 import { useDispatch } from 'react-redux';
+import axios from 'axios';
 
 /**
  * Form Validation Schema
@@ -26,39 +27,72 @@ const defaultValues = {
 };
 
 function SignInPage() {
+  const api = `http://localhost:3000`;
   const dispatch = useDispatch();
   const [userName, setuserName] = useState('');
   const [passWord, setpassWord] = useState('');
   const [err, seterr] = useState(false);
 
+  // const handleSubmitLogin = () => {
+  //   if (userName === 'rizal' && passWord === 'rizal123') {
+  //     window.location.href = 'dataBarang';
+  //     dispatch(
+  //       showMessage({
+  //         message: 'Welcome Rizal',
+  //         autoHideDuration: 5000,
+  //         anchorOrigin: {
+  //           vertical: 'top',
+  //           horizontal: 'center',
+  //         },
+  //         variant: 'success',
+  //       })
+  //     );
+  //   } else {
+  //     seterr(true);
+  //     dispatch(
+  //       showMessage({
+  //         message: 'Password atau username salah!!',
+  //         autoHideDuration: 2000,
+  //         anchorOrigin: {
+  //           vertical: 'top',
+  //           horizontal: 'center',
+  //         },
+  //         variant: 'error',
+  //       })
+  //     );
+  //   }
+  // };
   const handleSubmitLogin = () => {
-    if (userName === 'rizal' && passWord === 'rizal123') {
-      window.location.href = 'dataBarang';
-      dispatch(
-        showMessage({
-          message: 'Welcome Rizal',
-          autoHideDuration: 5000,
-          anchorOrigin: {
-            vertical: 'top',
-            horizontal: 'center',
-          },
-          variant: 'success',
-        })
-      );
-    } else {
-      seterr(true);
-      dispatch(
-        showMessage({
-          message: 'Password atau username salah!!',
-          autoHideDuration: 2000,
-          anchorOrigin: {
-            vertical: 'top',
-            horizontal: 'center',
-          },
-          variant: 'error',
-        })
-      );
-    }
+    axios
+      .post(`${api}/login`, { username: userName, password: passWord })
+      .then((res) => {
+        window.location.href = 'dataBarang';
+        dispatch(
+          showMessage({
+            message: 'Welcome Rizal',
+            autoHideDuration: 5000,
+            anchorOrigin: {
+              vertical: 'top',
+              horizontal: 'center',
+            },
+            variant: 'success',
+          })
+        );
+      })
+      .catch((error) => {
+        seterr(true);
+        dispatch(
+          showMessage({
+            message: 'Password atau username salah!!',
+            autoHideDuration: 2000,
+            anchorOrigin: {
+              vertical: 'top',
+              horizontal: 'center',
+            },
+            variant: 'error',
+          })
+        );
+      });
   };
 
   return (
