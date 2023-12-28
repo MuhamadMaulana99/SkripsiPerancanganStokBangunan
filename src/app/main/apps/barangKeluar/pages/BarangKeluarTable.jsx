@@ -103,7 +103,7 @@ function createData(no, id, kodeBarang, namaBarang, jmlKeluar, tglKeluar) {
 export default function BarangKeluarTable(props) {
   const dispatch = useDispatch();
   const { dataMasterBarang } = props;
-  console.log(dataMasterBarang, 'dataMasterBarang');
+  // console.log(dataMasterBarang, 'dataMasterBarang');
   const [data, setData] = useState([]);
   const [dataEdit, setDataEdit] = useState({
     kodeBarang: null,
@@ -127,7 +127,6 @@ export default function BarangKeluarTable(props) {
       item?.tglKeluar
     )
   );
-  console.log(dataEdit, 'dataEdit');
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);

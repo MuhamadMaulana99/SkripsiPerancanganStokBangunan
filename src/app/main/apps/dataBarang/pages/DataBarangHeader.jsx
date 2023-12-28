@@ -1,3 +1,9 @@
+/* eslint-disable func-names */
+/* eslint-disable no-shadow */
+/* eslint-disable new-cap */
+/* eslint-disable no-plusplus */
+/* eslint-disable no-nested-ternary */
+/* eslint-disable import/no-extraneous-dependencies */
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { motion } from 'framer-motion';
@@ -11,6 +17,14 @@ import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { showMessage } from 'app/store/fuse/messageSlice';
 import { Autocomplete, TextField } from '@mui/material';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import moment from 'moment';
+import jsPDF from 'jspdf';
+import { saveAs } from 'file-saver';
+import PrintIcon from '@mui/icons-material/Print';
+import autoTable from 'jspdf-autotable';
+import FuseAnimate from '@fuse/core/FuseAnimate';
+import { Workbook } from 'exceljs';
 
 const top100Films = [
   { label: 'KG', year: 1994 },
@@ -20,7 +34,8 @@ const top100Films = [
 
 function DataBarangHeader(props) {
   const dispatch = useDispatch();
-  const [data, setData] = React.useState({});
+  const data = props?.data;
+  // const [data, setData] = React.useState({});
   const [loading, setLoading] = React.useState(true);
   const [open, setOpen] = React.useState(false);
   const [kodeBarang, setkodeBarang] = useState('');
@@ -40,10 +55,6 @@ function DataBarangHeader(props) {
   };
   // const api = `https://652d2c32f9afa8ef4b26e7f0.mockapi.io/tokoBangunan/v1/suplayer/1/tokoBangunan`;
   const api = `http://localhost:3000/dataBarangs`;
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
 
   const handleClose = () => {
     setOpen(false);
@@ -109,7 +120,116 @@ function DataBarangHeader(props) {
         console.log(err);
       });
   };
+  const DataForBody = [];
+  const dataFinal = [];
+  const datas = {
+    no: null,
+    kodeBarang: null,
+    namaBarang: null,
+    stock: null,
+  };
+  for (let index = 0; index < data.length; index++) {
+    dataFinal.push({
+      ...datas,
+      no: index + 1,
+      kodeBarang: data[index].kodeBarang?.kodeBarang,
+      namaBarang: data[index].kodeBarang?.namaBarang,
+      stock: data[index].jumlahMasuk,
+    });
+  }
 
+  for (let index = 0; index < data.length; index++) {
+    if (data.length !== 0) {
+      DataForBody.push(Object.values(dataFinal[index]));
+    }
+  }
+  const downloadPDF = () => {
+    const doc = new jsPDF('l', 'pt', 'legal');
+    doc.text(`Laporan Data Barang Tanggal ${moment().format('LL')}`, 20, 20);
+    const index = 0;
+    doc.setFontSize(10);
+    autoTable(doc, {
+      theme: 'striped',
+      margin: { top: 95 },
+      head: [['No', 'Kode Barang', 'Nama Barang', 'Stok Barang']],
+      headStyles: { fontSize: 7, halign: 'center' },
+      columnStyles: {
+        0: { fontSize: 7, halign: 'center' },
+        1: { fontSize: 7, halign: 'center' },
+        2: { fontSize: 7, halign: 'center' },
+        3: { fontSize: 7, halign: 'center' },
+        4: { fontSize: 7, halign: 'center' },
+        5: { fontSize: 7, halign: 'center' },
+        6: { fontSize: 7, halign: 'center' },
+        7: { fontSize: 7, halign: 'center' },
+        // 7: { fontSize: 7, halign: 'center' },
+      },
+
+      body: DataForBody,
+      // body: [DataPDF, DataPDF],
+    });
+    doc.save(`Data Barang ${moment().format('LL')}.pdf`);
+  };
+  // console.log(data, 'data');
+  function exportExcel() {
+    // create workbook by api.
+    const workbook = new Workbook();
+    // must create one more sheet.
+    const sheet = workbook.addWorksheet('Data Barang');
+    const worksheet = workbook.getWorksheet('Data Barang');
+
+    /* TITLE */
+    worksheet.mergeCells('A1', 'G1');
+    worksheet.getCell('A1').value = 'Data Barang';
+    worksheet.getCell('A1').alignment = { horizontal: 'left' };
+
+    worksheet.mergeCells('A3', 'B3');
+
+    worksheet.getCell('C5').alignment = { horizontal: 'left' };
+
+    /* Header Table */
+    worksheet.getCell('A7').value = 'NO';
+    worksheet.getCell('A7').alignment = { horizontal: 'center' };
+
+    worksheet.getCell('B7').value = 'Kode Barang';
+    worksheet.getCell('B7').alignment = { horizontal: 'center' };
+
+    worksheet.getCell('C7').value = 'Nama Barang';
+    worksheet.getCell('C7').alignment = { horizontal: 'center' };
+
+    worksheet.getCell('D7').value = 'Stok';
+    worksheet.getCell('D7').alignment = { horizontal: 'center' };
+
+    /* Column headers */
+    worksheet.getRow(6).values = [''];
+    worksheet.columns = [
+      { key: 'data_a', width: 10 },
+      { key: 'data_b', width: 20 },
+      { key: 'data_c', width: 20 },
+      { key: 'data_d', width: 20 },
+    ];
+    /* Now we use the keys we defined earlier to insert your data by iterating through arrData
+		and calling worksheet.addRow()
+		*/
+    data.forEach(function (data, index) {
+      worksheet.addRow({
+        data_a: `${index + 1}`,
+        data_b: data?.kodeBarang?.kodeBarang,
+        data_c: data?.kodeBarang?.namaBarang,
+        data_d: data.jumlahMasuk,
+      });
+    });
+
+    (async () => {
+      const buffer = await workbook.xlsx.writeBuffer();
+      const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+      const fileExtension = '.xlsx';
+
+      const blob = new Blob([buffer], { type: fileType });
+
+      saveAs(blob, `Data darang Tanggal ${moment().format('LL')}${fileExtension}`);
+    })();
+  }
   return (
     <div className="flex flex-col sm:flex-row space-y-16 sm:space-y-0 flex-1 w-full items-center justify-between py-32 px-24 md:px-32">
       <Dialog
@@ -206,54 +326,39 @@ function DataBarangHeader(props) {
           </Button>
         </DialogActions>
       </Dialog>
-      <Typography
-        component={motion.span}
-        initial={{ x: -20 }}
-        animate={{ x: 0, transition: { delay: 0.2 } }}
-        delay={300}
-        className="text-24 md:text-32 font-extrabold tracking-tight"
-      >
-        Data Barang
-      </Typography>
-
-      {/* <div className="flex flex-col w-full sm:w-auto sm:flex-row space-y-16 sm:space-y-0 flex-1 items-center justify-end space-x-8">
-        <Paper
-          component={motion.div}
-          initial={{ y: -20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1, transition: { delay: 0.2 } }}
-          className="flex items-center w-full sm:max-w-256 space-x-8 px-16 rounded-full border-1 shadow-0"
+      <div className="w-full flex justify-evenly">
+        <Typography
+          component={motion.span}
+          initial={{ x: -20 }}
+          animate={{ x: 0, transition: { delay: 0.2 } }}
+          delay={300}
+          className="text-24 md:text-32 font-extrabold tracking-tight"
         >
-          <FuseSvgIcon color="disabled">heroicons-solid:search</FuseSvgIcon>
-
-          <Input
-            placeholder="Cari Barang"
-            className="flex flex-1"
-            disableUnderline
-            fullWidth
-            // value={searchText}
-            inputProps={{
-              'aria-label': 'Search',
-            }}
-            // onChange={(ev) => dispatch(setProductsSearchText(ev))}
-          />
-        </Paper>
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0, transition: { delay: 0.2 } }}
-        >
-          <Button
-            className=""
-            // component={Link}
-            // to="/apps/e-commerce/products/new"
-            onClick={handleClickOpen}
-            variant="contained"
-            color="secondary"
-            startIcon={<FuseSvgIcon>heroicons-outline:plus</FuseSvgIcon>}
-          >
-            Add
-          </Button>
-        </motion.div>
-      </div> */}
+          Data Barang
+        </Typography>
+        <div className="flex flex-auto items-center gap-4 grid-rows-1 ">
+          <div className="flex items-left mt-10 ml-20 w-1/2 flex-col md:flex-row md:items-center md:mt-0">
+            <div className="w-full flex">
+              <div>
+                <FuseAnimate animation="transition.slideLeftIn" delay={100}>
+                  <Button color="primary" variant="contained" onClick={downloadPDF}>
+                    <PictureAsPdfIcon className="mr-2" />
+                    <div className="hidden md:contents">Export To PDF</div>
+                  </Button>
+                </FuseAnimate>
+              </div>
+              <div className="ml-10">
+                <FuseAnimate animation="transition.slideLeftIn" delay={100}>
+                  <Button variant="contained" color="success" onClick={exportExcel}>
+                    <PrintIcon className="mr-2" />
+                    <div className="hidden md:contents">Export To Excel</div>
+                  </Button>
+                </FuseAnimate>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

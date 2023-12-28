@@ -1,3 +1,8 @@
+/* eslint-disable new-cap */
+/* eslint-disable func-names */
+/* eslint-disable no-shadow */
+/* eslint-disable no-plusplus */
+/* eslint-disable import/no-extraneous-dependencies */
 import Button from '@mui/material/Button';
 import Input from '@mui/material/Input';
 import Paper from '@mui/material/Paper';
@@ -17,7 +22,14 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { Autocomplete, TextField } from '@mui/material';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import moment from 'moment';
+import jsPDF from 'jspdf';
+import { saveAs } from 'file-saver';
+import PrintIcon from '@mui/icons-material/Print';
+import autoTable from 'jspdf-autotable';
+import FuseAnimate from '@fuse/core/FuseAnimate';
+import { Workbook } from 'exceljs';
 
 const top100Films = [
   { label: 'KG', year: 1994 },
@@ -26,6 +38,7 @@ const top100Films = [
 ];
 function BarangMasukHeader(props) {
   const dispatch = useDispatch();
+  const data = props?.data;
   const { dataMasterBarang } = props;
   const { dataMasterSuplayer } = props;
   const [loading, setLoading] = useState(true);
@@ -119,7 +132,157 @@ function BarangMasukHeader(props) {
         console.log(err);
       });
   };
+  console.log(data, 'data');
 
+  const DataForBody = [];
+  const dataFinal = [];
+  const datas = {
+    no: null,
+    kodeBarang: null,
+    namaBarang: null,
+    hargaBarang: null,
+    supllayer: null,
+    satuan: null,
+    stock: null,
+    tglMasuk: null,
+  };
+  for (let index = 0; index < data.length; index++) {
+    dataFinal.push({
+      ...datas,
+      no: index + 1,
+      kodeBarang: data[index].kodeBarang?.kodeBarang,
+      namaBarang: data[index].kodeBarang?.namaBarang,
+      hargaBarang: data[index].hargaBarang,
+      supllayer: data[index].supllayer?.name,
+      satuan: data[index].satuan?.label,
+      stock: data[index].jumlahMasuk,
+      tglMasuk: moment(data[index].tglMasuk).format('YYYY-DD-MM'),
+    });
+  }
+
+  for (let index = 0; index < data.length; index++) {
+    if (data.length !== 0) {
+      DataForBody.push(Object.values(dataFinal[index]));
+    }
+  }
+  const downloadPDF = () => {
+    const doc = new jsPDF('l', 'pt', 'legal');
+    doc.text(`Laporan Data Barang Keluar Tanggal ${moment().format('LL')}`, 20, 20);
+    const index = 0;
+    doc.setFontSize(10);
+    autoTable(doc, {
+      theme: 'striped',
+      margin: { top: 95 },
+      head: [
+        [
+          'No',
+          'Kode Barang',
+          'Nama Barang',
+          'Harga Barang',
+          'Supllayer',
+          'Satuan',
+          'Stok Barang',
+          'Tanggal Masuk',
+        ],
+      ],
+      headStyles: { fontSize: 7, halign: 'center' },
+      columnStyles: {
+        0: { fontSize: 7, halign: 'center' },
+        1: { fontSize: 7, halign: 'center' },
+        2: { fontSize: 7, halign: 'center' },
+        3: { fontSize: 7, halign: 'center' },
+        4: { fontSize: 7, halign: 'center' },
+        5: { fontSize: 7, halign: 'center' },
+        6: { fontSize: 7, halign: 'center' },
+        7: { fontSize: 7, halign: 'center' },
+        // 7: { fontSize: 7, halign: 'center' },
+      },
+
+      body: DataForBody,
+      // body: [DataPDF, DataPDF],
+    });
+    doc.save(`Data Barang Masuk ${moment().format('LL')}.pdf`);
+  };
+  // console.log(data, 'data');
+  function exportExcel() {
+    // create workbook by api.
+    const workbook = new Workbook();
+    // must create one more sheet.
+    const sheet = workbook.addWorksheet('Data Barang Masuk');
+    const worksheet = workbook.getWorksheet('Data Barang Masuk');
+
+    /* TITLE */
+    worksheet.mergeCells('A1', 'G1');
+    worksheet.getCell('A1').value = 'Barang Masuk';
+    worksheet.getCell('A1').alignment = { horizontal: 'left' };
+
+    worksheet.mergeCells('A3', 'B3');
+
+    worksheet.getCell('C5').alignment = { horizontal: 'left' };
+
+    /* Header Table */
+    worksheet.getCell('A7').value = 'NO';
+    worksheet.getCell('A7').alignment = { horizontal: 'center' };
+
+    worksheet.getCell('B7').value = 'Kode Barang';
+    worksheet.getCell('B7').alignment = { horizontal: 'center' };
+
+    worksheet.getCell('C7').value = 'Nama Barang';
+    worksheet.getCell('C7').alignment = { horizontal: 'center' };
+
+    worksheet.getCell('D7').value = 'Harga Barang';
+    worksheet.getCell('D7').alignment = { horizontal: 'center' };
+
+    worksheet.getCell('E7').value = 'Supllayer';
+    worksheet.getCell('E7').alignment = { horizontal: 'center' };
+
+    worksheet.getCell('F7').value = 'Satuan';
+    worksheet.getCell('F7').alignment = { horizontal: 'center' };
+
+    worksheet.getCell('G7').value = 'Stock';
+    worksheet.getCell('G7').alignment = { horizontal: 'center' };
+
+    worksheet.getCell('H7').value = 'Tanggal Masuk';
+    worksheet.getCell('H7').alignment = { horizontal: 'center' };
+
+    /* Column headers */
+    worksheet.getRow(6).values = [''];
+    worksheet.columns = [
+      { key: 'data_a', width: 10 },
+      { key: 'data_b', width: 20 },
+      { key: 'data_c', width: 20 },
+      { key: 'data_d', width: 20 },
+      { key: 'data_e', width: 20 },
+      { key: 'data_f', width: 20 },
+      { key: 'data_g', width: 20 },
+      { key: 'data_h', width: 20 },
+    ];
+    /* Now we use the keys we defined earlier to insert your data by iterating through arrData
+		and calling worksheet.addRow()
+		*/
+    data.forEach(function (data, index) {
+      worksheet.addRow({
+        data_a: `${index + 1}`,
+        data_b: data?.kodeBarang?.kodeBarang,
+        data_c: data?.kodeBarang?.namaBarang,
+        data_d: data.hargaBarang,
+        data_e: data.supllayer?.name,
+        data_f: data.satuan?.label,
+        data_g: data.jumlahMasuk,
+        data_h: moment(data.tglKeluar).format('YYYY-DD-MM'),
+      });
+    });
+
+    (async () => {
+      const buffer = await workbook.xlsx.writeBuffer();
+      const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+      const fileExtension = '.xlsx';
+
+      const blob = new Blob([buffer], { type: fileType });
+
+      saveAs(blob, `Data barang Masuk Tanggal ${moment().format('LL')}${fileExtension}`);
+    })();
+  }
   return (
     <div className="flex flex-col sm:flex-row space-y-16 sm:space-y-0 flex-1 w-full items-center justify-between py-32 px-24 md:px-32">
       <Dialog
@@ -252,16 +415,39 @@ function BarangMasukHeader(props) {
           </Button>
         </DialogActions>
       </Dialog>
-      <Typography
-        component={motion.span}
-        initial={{ x: -20 }}
-        animate={{ x: 0, transition: { delay: 0.2 } }}
-        delay={300}
-        className="text-24 md:text-32 font-extrabold tracking-tight"
-      >
-        Barang Masuk
-      </Typography>
-
+      <div className="w-full flex justify-evenly">
+        <Typography
+          component={motion.span}
+          initial={{ x: -20 }}
+          animate={{ x: 0, transition: { delay: 0.2 } }}
+          delay={300}
+          className="text-24 md:text-32 font-extrabold tracking-tight"
+        >
+          Barang Masuk
+        </Typography>
+        <div className="flex flex-auto items-center gap-4 grid-rows-1 ">
+          <div className="flex items-left mt-10 ml-20 w-1/2 flex-col md:flex-row md:items-center md:mt-0">
+            <div className="w-full flex">
+              <div>
+                <FuseAnimate animation="transition.slideLeftIn" delay={100}>
+                  <Button color="primary" variant="contained" onClick={downloadPDF}>
+                    <PictureAsPdfIcon className="mr-2" />
+                    <div className="hidden md:contents">Export To PDF</div>
+                  </Button>
+                </FuseAnimate>
+              </div>
+              <div className="ml-10">
+                <FuseAnimate animation="transition.slideLeftIn" delay={100}>
+                  <Button variant="contained" color="success" onClick={exportExcel}>
+                    <PrintIcon className="mr-2" />
+                    <div className="hidden md:contents">Export To Excel</div>
+                  </Button>
+                </FuseAnimate>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div className="flex flex-col w-full sm:w-auto sm:flex-row space-y-16 sm:space-y-0 flex-1 items-center justify-end space-x-8">
         <Paper
           component={motion.div}
