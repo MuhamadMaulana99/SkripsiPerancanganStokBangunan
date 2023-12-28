@@ -13,6 +13,15 @@ import { selectUser } from 'app/store/userSlice';
 
 function UserMenu(props) {
   const user = useSelector(selectUser);
+  const userRoles = JSON.parse(localStorage.getItem('userRoles'));
+  let getAllUserResponse;
+  let getResponseName;
+  if (userRoles) {
+    getAllUserResponse = userRoles?.response?.userRoles;
+    getResponseName = userRoles?.response;
+  }
+  const dataLogin = JSON.parse(getAllUserResponse);
+  console.log(dataLogin);
 
   const [userMenu, setUserMenu] = useState(null);
 
@@ -33,11 +42,13 @@ function UserMenu(props) {
       >
         <div className="hidden md:flex flex-col mx-4 items-end">
           <Typography component="span" className="font-semibold flex">
-            {user.data.displayName}
+            {/* {user.data.displayName} */}
+            {getResponseName?.name}
           </Typography>
           <Typography className="text-11 font-medium capitalize" color="text.secondary">
-            {user.role.toString()}
-            {(!user.role || (Array.isArray(user.role) && user.role.length === 0)) && 'Guest'}
+            {/* {user.role.toString()}
+            {(!user.role || (Array.isArray(user.role) && user.role.length === 0)) && 'Guest'} */}
+            {dataLogin?.roleUser}
           </Typography>
         </div>
 

@@ -67,6 +67,7 @@ function SignInPage() {
       .post(`${api}/login`, { username: userName, password: passWord })
       .then((res) => {
         window.location.href = 'dataBarang';
+        localStorage.setItem('userRoles', JSON.stringify(res?.data));
         dispatch(
           showMessage({
             message: 'Welcome Rizal',
@@ -80,6 +81,7 @@ function SignInPage() {
         );
       })
       .catch((error) => {
+        localStorage.removeItem('userRoles');
         seterr(true);
         dispatch(
           showMessage({

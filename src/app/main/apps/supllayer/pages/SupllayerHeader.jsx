@@ -133,7 +133,7 @@ function SupllayerHeader(props) {
                   value={alamat}
                   onChange={(e) => setalamat(e.target.value)}
                   id="outlined-basic"
-                  label="No Tlp"
+                  label="Alamat"
                   variant="outlined"
                 />
               </div>

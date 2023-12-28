@@ -115,7 +115,7 @@ function MasterBarangHeader(props) {
                   value={kodeBarang}
                   onChange={(e) => setkodeBarang(e.target.value)}
                   id="outlined-basic"
-                  label="No Tlp"
+                  label="Kode Barang"
                   variant="outlined"
                 />
               </div>
@@ -124,7 +124,7 @@ function MasterBarangHeader(props) {
                   value={namaBarang}
                   onChange={(e) => setnamaBarang(e.target.value)}
                   id="outlined-basic"
-                  label="Nama"
+                  label="Nama Barang"
                   variant="outlined"
                 />
               </div>

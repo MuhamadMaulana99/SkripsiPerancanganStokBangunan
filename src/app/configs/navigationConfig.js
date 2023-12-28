@@ -38,6 +38,14 @@ const navigationConfig = [
         icon: 'heroicons-outline:collection',
         url: '/apps/masterBarang/',
       },
+      {
+        id: 'masterSattuan',
+        title: 'Master Satuan',
+        // translate: 'Stok Barang',
+        type: 'item',
+        icon: 'heroicons-outline:collection',
+        url: '/apps/masterSattuan/',
+      },
     ],
   },
   {

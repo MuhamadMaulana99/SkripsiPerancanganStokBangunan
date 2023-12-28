@@ -40,49 +40,42 @@ const columns = [
     label: 'Kode Barang',
     minWidth: 170,
     align: 'left',
-    // format: (value) => value.toLocaleString('en-US'),
   },
   {
     id: 'namaBarang',
     label: 'Nama Barang',
     minWidth: 170,
     align: 'left',
-    // format: (value) => value.toLocaleString('en-US'),
   },
-  {
-    id: 'hargaBarang',
-    label: 'Harga Barang',
-    minWidth: 170,
-    align: 'left',
-    // format: (value) => value.toLocaleString('en-US'),
-  },
+  // {
+  //   id: 'hargaBarang',
+  //   label: 'Harga Barang',
+  //   minWidth: 170,
+  //   align: 'left',
+  // },
   {
     id: 'jumlahMasuk',
     label: 'Stok Barang',
     minWidth: 170,
     align: 'left',
-    // format: (value) => value.toLocaleString('en-US'),
   },
-  {
-    id: 'satuan',
-    label: 'Satuan',
-    minWidth: 170,
-    align: 'left',
-    // format: (value) => value.toLocaleString('en-US'),
-  },
-  {
-    id: 'deskripsi',
-    label: 'Desskripsi',
-    minWidth: 170,
-    align: 'left',
-    // format: (value) => value.toLocaleString('en-US'),
-  },
+  // {
+  //   id: 'satuan',
+  //   label: 'Satuan',
+  //   minWidth: 170,
+  //   align: 'left',
+  // },
+  // {
+  //   id: 'deskripsi',
+  //   label: 'Desskripsi',
+  //   minWidth: 170,
+  //   align: 'left',
+  // },
   {
     id: 'aksi',
     label: 'Aksi',
     minWidth: 170,
     align: 'center',
-    // format: (value) => value.toFixed(2),
   },
 ];
 
@@ -379,15 +372,15 @@ export default function DataBarangTable(props) {
               return (
                 <TableRow key={row.id} hover role="checkbox" tabIndex={-1}>
                   <TableCell>{index + 1}.</TableCell>
-                  <TableCell>{row?.kodeBarang}</TableCell>
+                  <TableCell>{row?.kodeBarang?.kodeBarang}</TableCell>
                   <TableCell>{row?.namaBarang}</TableCell>
-                  <TableCell>{row?.hargaBarang}</TableCell>
+                  {/* <TableCell>{row?.hargaBarang}</TableCell> */}
                   <TableCell>{row?.jumlahMasuk}</TableCell>
-                  <TableCell>{row?.satuan?.label}</TableCell>
-                  <TableCell>{row?.deskripsi}</TableCell>
+                  {/* <TableCell>{row?.satuan?.label}</TableCell> */}
+                  {/* <TableCell>{row?.deskripsi}</TableCell>  */}
                   <TableCell>
                     <div className="flex justify-center">
-                      <div>
+                      {/* <div>
                         <IconButton
                           onClick={() => handleClickOpen(row.id, row)}
                           color="info"
@@ -395,7 +388,7 @@ export default function DataBarangTable(props) {
                         >
                           <EditIcon />
                         </IconButton>
-                      </div>
+                      </div> */}
                       <div>
                         <IconButton
                           onClick={(e) => HandelDelete(row.id)}

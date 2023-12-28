@@ -27,6 +27,15 @@ const Root = styled('div')(({ theme }) => ({
 
 function UserNavbarHeader(props) {
   const user = useSelector(selectUser);
+  const userRoles = JSON.parse(localStorage.getItem('userRoles'));
+  let getAllUserResponse;
+  let getResponseName;
+  if (userRoles) {
+    getAllUserResponse = userRoles?.response?.userRoles;
+    getResponseName = userRoles?.response;
+  }
+  const dataLogin = JSON.parse(getAllUserResponse);
+  // console.log(dataLogin)
 
   return (
     <Root className="user relative flex flex-col items-center justify-center p-16 pb-14 shadow-0">
@@ -40,14 +49,16 @@ function UserNavbarHeader(props) {
           src={user.data.photoURL}
           alt={user.data.displayName}
         >
-          {user.data.displayName.charAt(0)}
+          {getResponseName?.name.charAt(0)}
         </Avatar>
       </div>
       <Typography className="username text-14 whitespace-nowrap font-medium">
-        {user.data.displayName}
+        {/* {user.data.displayName} */}
+        {getResponseName?.name}
       </Typography>
       <Typography className="email text-13 whitespace-nowrap font-medium" color="text.secondary">
-        {user.data.email}
+        {/* {user.data.email} */}
+        {dataLogin?.roleUser}
       </Typography>
     </Root>
   );

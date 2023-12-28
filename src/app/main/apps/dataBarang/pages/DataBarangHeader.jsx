@@ -1,9 +1,6 @@
 import Button from '@mui/material/Button';
-import Input from '@mui/material/Input';
-import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { motion } from 'framer-motion';
-import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import React, { useState } from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -219,7 +216,7 @@ function DataBarangHeader(props) {
         Data Barang
       </Typography>
 
-      <div className="flex flex-col w-full sm:w-auto sm:flex-row space-y-16 sm:space-y-0 flex-1 items-center justify-end space-x-8">
+      {/* <div className="flex flex-col w-full sm:w-auto sm:flex-row space-y-16 sm:space-y-0 flex-1 items-center justify-end space-x-8">
         <Paper
           component={motion.div}
           initial={{ y: -20, opacity: 0 }}
@@ -256,7 +253,7 @@ function DataBarangHeader(props) {
             Add
           </Button>
         </motion.div>
-      </div>
+      </div> */}
     </div>
   );
 }
