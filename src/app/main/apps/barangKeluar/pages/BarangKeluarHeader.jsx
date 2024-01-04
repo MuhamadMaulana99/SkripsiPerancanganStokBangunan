@@ -257,7 +257,7 @@ function BarangKeluarHeader(props) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">Tambah Barang</DialogTitle>
+        <DialogTitle id="alert-dialog-title">Tambah Barang Keluar</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             <div className="m-10">

@@ -106,7 +106,7 @@ function MasterBarangHeader(props) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">Tambah Barang</DialogTitle>
+        <DialogTitle id="alert-dialog-title">Tambah Master Barang</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             <div className="grid grid-cols-2 gap-16 mt-10 mb-10">

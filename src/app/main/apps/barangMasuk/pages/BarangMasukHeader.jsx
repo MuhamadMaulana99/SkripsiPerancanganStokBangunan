@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable new-cap */
 /* eslint-disable func-names */
 /* eslint-disable no-shadow */
@@ -11,7 +12,7 @@ import { motion } from 'framer-motion';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import { showMessage } from 'app/store/fuse/messageSlice';
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -43,6 +44,7 @@ function BarangMasukHeader(props) {
   const { dataMasterSuplayer } = props;
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
+  const [dataSatuan, setdataSatuan] = useState(null);
   const [kodeBarang, setkodeBarang] = useState(null);
   const [namaBarang, setnamaBarang] = useState('');
   const [hargaBarang, sethargaBarang] = useState('');
@@ -50,6 +52,7 @@ function BarangMasukHeader(props) {
   const [jumlahMasuk, setjumlahMasuk] = useState(0);
   const [satuan, setsatuan] = useState(null);
   const [tglMasuk, settglMasuk] = useState(null);
+  // console.log(dataSatuan, 'datasatuan');
 
   const body = {
     kodeBarang: JSON.stringify(kodeBarang),
@@ -132,7 +135,59 @@ function BarangMasukHeader(props) {
         console.log(err);
       });
   };
-  console.log(data, 'data');
+  const getDataSatuan = async () => {
+    setLoading(true);
+    const response = await axios
+      .get(`${api}/mstSatuan`)
+      .then((res) => {
+        setdataSatuan(res?.data);
+        setLoading(false);
+        // console.log(res.data, 'rrr');
+      })
+      .catch((err) => {
+        setdataSatuan([]);
+        setLoading(false);
+        const errStatus = err.response.status;
+        const errMessage = err.response.data.message;
+        let messages = '';
+        if (errStatus === 401) {
+          messages = 'Unauthorized!!';
+          window.location.href = '/login';
+        } else if (errStatus === 500) {
+          messages = 'Server Error!!';
+        } else if (errStatus === 404) {
+          messages = 'Not Found Error!!!';
+        } else if (errStatus === 408) {
+          messages = 'TimeOut Error!!';
+        } else if (errStatus === 400) {
+          messages = errMessage;
+        } else {
+          messages = 'Something Wrong!!';
+        }
+        dispatch(
+          showMessage({
+            message: messages,
+            autoHideDuration: 2000,
+            anchorOrigin: {
+              vertical: 'top',
+              horizontal: 'center',
+            },
+            variant: 'error',
+          })
+        );
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    let isUnmout = false;
+    if (!isUnmout) {
+      getDataSatuan();
+    }
+    return () => {
+      isUnmout = true;
+    };
+  }, []);
 
   const DataForBody = [];
   const dataFinal = [];
@@ -154,7 +209,7 @@ function BarangMasukHeader(props) {
       namaBarang: data[index].kodeBarang?.namaBarang,
       hargaBarang: data[index].hargaBarang,
       supllayer: data[index].supllayer?.name,
-      satuan: data[index].satuan?.label,
+      satuan: data[index].satuan?.name,
       stock: data[index].jumlahMasuk,
       tglMasuk: moment(data[index].tglMasuk).format('YYYY-DD-MM'),
     });
@@ -267,7 +322,7 @@ function BarangMasukHeader(props) {
         data_c: data?.kodeBarang?.namaBarang,
         data_d: data.hargaBarang,
         data_e: data.supllayer?.name,
-        data_f: data.satuan?.label,
+        data_f: data.satuan?.name,
         data_g: data.jumlahMasuk,
         data_h: moment(data.tglKeluar).format('YYYY-DD-MM'),
       });
@@ -291,7 +346,7 @@ function BarangMasukHeader(props) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">Tambah Barang</DialogTitle>
+        <DialogTitle id="alert-dialog-title">Tambah Barang Masuk</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             <div className="grid grid-cols-2 gap-16 mt-10 mb-10">
@@ -367,7 +422,8 @@ function BarangMasukHeader(props) {
                     setsatuan(newValue);
                   }}
                   id="combo-box-demo"
-                  options={top100Films}
+                  options={dataSatuan}
+                  getOptionLabel={(option) => option.name}
                   sx={{ width: 300 }}
                   renderInput={(params) => <TextField {...params} label="Satuan" />}
                 />

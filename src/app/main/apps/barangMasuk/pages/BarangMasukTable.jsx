@@ -305,7 +305,7 @@ export default function BarangMasukTable(props) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">Edit Barang</DialogTitle>
+        <DialogTitle id="alert-dialog-title">Edit Barang Masuk</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             <div className="grid grid-cols-2 gap-16 mt-10 mb-10">
@@ -435,7 +435,7 @@ export default function BarangMasukTable(props) {
                   <TableCell>{moment(row?.tglMasuk).format('LL')}</TableCell>
                   <TableCell>{row?.supllayer?.name}</TableCell>
                   <TableCell>{row?.jumlahMasuk}</TableCell>
-                  <TableCell>{row?.satuan?.label}</TableCell>
+                  <TableCell>{row?.satuan?.name}</TableCell>
                   <TableCell>
                     <div className="flex justify-center">
                       <div>

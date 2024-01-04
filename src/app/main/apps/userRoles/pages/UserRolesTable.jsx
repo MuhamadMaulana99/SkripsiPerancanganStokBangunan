@@ -234,7 +234,7 @@ export default function UserRolesTable(props) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">Edit Barang</DialogTitle>
+        <DialogTitle id="alert-dialog-title">Edit User</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             <div className="mt-10">

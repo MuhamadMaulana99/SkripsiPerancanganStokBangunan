@@ -231,7 +231,7 @@ export default function SupllayerTable(props) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">Edit Barang</DialogTitle>
+        <DialogTitle id="alert-dialog-title">Edit Supplier</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             <div className="grid grid-cols-2 gap-16 mt-10 mb-10">

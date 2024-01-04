@@ -114,7 +114,7 @@ function UserRolesHeader(props) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">Tambah Barang</DialogTitle>
+        <DialogTitle id="alert-dialog-title">Tambah User</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             <div className="mt-10">
@@ -187,7 +187,7 @@ function UserRolesHeader(props) {
           <FuseSvgIcon color="disabled">heroicons-solid:search</FuseSvgIcon>
 
           <Input
-            placeholder="Cari Barang"
+            placeholder="Cari User"
             className="flex flex-1"
             disableUnderline
             fullWidth

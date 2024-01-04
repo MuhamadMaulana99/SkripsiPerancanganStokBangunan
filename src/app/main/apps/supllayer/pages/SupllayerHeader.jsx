@@ -106,7 +106,7 @@ function SupllayerHeader(props) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">Tambah Barang</DialogTitle>
+        <DialogTitle id="alert-dialog-title">Tambah Supplier</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             <div className="grid grid-cols-2 gap-16 mt-10 mb-10">
@@ -169,7 +169,7 @@ function SupllayerHeader(props) {
           <FuseSvgIcon color="disabled">heroicons-solid:search</FuseSvgIcon>
 
           <Input
-            placeholder="Cari Barang"
+            placeholder="Cari Supplier"
             className="flex flex-1"
             disableUnderline
             fullWidth

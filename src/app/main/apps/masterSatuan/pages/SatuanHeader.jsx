@@ -113,7 +113,7 @@ function SatuanHeader(props) {
                   value={name}
                   onChange={(e) => setname(e.target.value)}
                   id="outlined-basic"
-                  label="Nama"
+                  label="Satuan"
                   variant="outlined"
                 />
               </div>
@@ -149,7 +149,7 @@ function SatuanHeader(props) {
           <FuseSvgIcon color="disabled">heroicons-solid:search</FuseSvgIcon>
 
           <Input
-            placeholder="Cari Barang"
+            placeholder="Cari Satuan"
             className="flex flex-1"
             disableUnderline
             fullWidth

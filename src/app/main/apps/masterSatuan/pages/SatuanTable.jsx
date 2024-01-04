@@ -29,8 +29,8 @@ import FuseLoading from '@fuse/core/FuseLoading';
 const columns = [
   { id: 'no', label: 'NO', minWidth: 170, align: 'left' },
   {
-    id: 'name',
-    label: 'Nama',
+    id: 'satuan',
+    label: 'Satuan',
     minWidth: 170,
     align: 'left',
     // format: (value) => value.toLocaleString('en-US'),
@@ -211,7 +211,7 @@ export default function SatuanTable(props) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">Edit Barang</DialogTitle>
+        <DialogTitle id="alert-dialog-title">Edit Satuan</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             <div className="grid grid-cols-2 gap-16 mt-10 mb-10">
@@ -221,7 +221,7 @@ export default function SatuanTable(props) {
                   value={dataEdit?.name}
                   onChange={(e) => setDataEdit({ ...dataEdit, name: e.target.value })}
                   id="outlined-basic"
-                  label="Nama"
+                  label="Satuan"
                   variant="outlined"
                 />
               </div>
