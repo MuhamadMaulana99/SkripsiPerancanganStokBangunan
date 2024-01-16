@@ -96,6 +96,7 @@ function BarangKeluarHeader(props) {
       })
       .catch((err) => {
         // setData([]);
+        console.log(err);
         handleClose();
         setLoading(false);
         const errStatus = err.response.status;
@@ -117,7 +118,7 @@ function BarangKeluarHeader(props) {
         }
         dispatch(
           showMessage({
-            message: messages,
+            message: `${err?.response?.data?.data?.namaBarang}${messages}`,
             autoHideDuration: 2000,
             anchorOrigin: {
               vertical: 'top',
@@ -126,10 +127,8 @@ function BarangKeluarHeader(props) {
             variant: 'error',
           })
         );
-        console.log(err);
       });
   };
-  console.log(data, 'data');
 
   const DataForBody = [];
   const dataFinal = [];
@@ -158,7 +157,9 @@ function BarangKeluarHeader(props) {
   }
   const downloadPDF = () => {
     const doc = new jsPDF('l', 'pt', 'legal');
-    doc.text(`Laporan Data Barang Keluar Tanggal ${moment().format('LL')}`, 20, 20);
+    doc.text(`Laporan Data Barang Keluar KARYA PUTRA 2 Tanggal ${moment().format('LL')}`, 20, 20);
+    doc.text(`jl.Kademangan RT. 05/02`, 400, 50);
+    doc.text(`Kel - Kademangan Setu, Tangsel`, 374, 70);
     const index = 0;
     doc.setFontSize(10);
     autoTable(doc, {

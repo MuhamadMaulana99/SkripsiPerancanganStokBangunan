@@ -113,6 +113,14 @@ function createData(
 }
 
 export default function BarangMasukTable(props) {
+  const userRoles = JSON.parse(localStorage.getItem('userRoles'));
+  let getAllUserResponse;
+  let getResponseName;
+  if (userRoles) {
+    getAllUserResponse = userRoles?.response?.userRoles;
+    getResponseName = userRoles?.response;
+  }
+  const dataLogin = JSON.parse(getAllUserResponse);
   const dataMasterSuplayer = props?.dataMasterSuplayer;
   const dataMasterBarang = props?.dataMasterBarang;
   // console.log(props, 'pp')
@@ -294,7 +302,7 @@ export default function BarangMasukTable(props) {
     );
   }
 
-  // console.log(dataEdit, 'dataEdit')
+  console.log(dataLogin?.roleUser, 'getAllUserResponse');
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -451,6 +459,7 @@ export default function BarangMasukTable(props) {
                         <IconButton
                           onClick={(e) => HandelDelete(row.id)}
                           color="error"
+                          disabled={dataLogin?.roleUser === 'User'}
                           className=""
                         >
                           <DeleteIcon />

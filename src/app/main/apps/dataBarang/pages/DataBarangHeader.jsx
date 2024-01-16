@@ -144,8 +144,15 @@ function DataBarangHeader(props) {
     }
   }
   const downloadPDF = () => {
+    const image = 'bangunan.jpeg';
+    const img = new Image();
+    img.src = image;
     const doc = new jsPDF('l', 'pt', 'legal');
-    doc.text(`Laporan Data Barang Tanggal ${moment().format('LL')}`, 20, 20);
+    doc.addImage(image, 'JPEG', 10, 10, 100, 100);
+    doc.text(`Laporan Data Barang KARYA PUTRA 2 Tanggal ${moment().format('LL')}`, 20, 20);
+    doc.text(`jl.Kademangan RT. 05/02`, 400, 50);
+    doc.text(`Kel - Kademangan Setu, Tangsel`, 374, 70);
+    doc.text(``, 20, 20);
     const index = 0;
     doc.setFontSize(10);
     autoTable(doc, {

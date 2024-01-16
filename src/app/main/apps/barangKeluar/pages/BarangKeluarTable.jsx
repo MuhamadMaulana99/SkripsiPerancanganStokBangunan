@@ -101,6 +101,15 @@ function createData(no, id, kodeBarang, namaBarang, jmlKeluar, tglKeluar) {
 }
 
 export default function BarangKeluarTable(props) {
+  const userRoles = JSON.parse(localStorage.getItem('userRoles'));
+  let getAllUserResponse;
+  let getResponseName;
+  if (userRoles) {
+    getAllUserResponse = userRoles?.response?.userRoles;
+    getResponseName = userRoles?.response;
+  }
+  const dataLogin = JSON.parse(getAllUserResponse);
+  const dataMasterSuplayer = props?.dataMasterSuplayer;
   const dispatch = useDispatch();
   const { dataMasterBarang } = props;
   // console.log(dataMasterBarang, 'dataMasterBarang');
@@ -407,6 +416,7 @@ export default function BarangKeluarTable(props) {
                         <IconButton
                           onClick={(e) => HandelDelete(row.id)}
                           color="error"
+                          disabled={dataLogin?.roleUser === 'User'}
                           className=""
                         >
                           <DeleteIcon />
