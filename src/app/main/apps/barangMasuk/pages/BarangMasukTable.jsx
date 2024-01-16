@@ -116,11 +116,12 @@ export default function BarangMasukTable(props) {
   const userRoles = JSON.parse(localStorage.getItem('userRoles'));
   let getAllUserResponse;
   let getResponseName;
+  let dataLogin;
   if (userRoles) {
     getAllUserResponse = userRoles?.response?.userRoles;
     getResponseName = userRoles?.response;
+    dataLogin = JSON.parse(getAllUserResponse);
   }
-  const dataLogin = JSON.parse(getAllUserResponse);
   const dataMasterSuplayer = props?.dataMasterSuplayer;
   const dataMasterBarang = props?.dataMasterBarang;
   // console.log(props, 'pp')
@@ -140,6 +141,7 @@ export default function BarangMasukTable(props) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   // const api = `https://6530fba34d4c2e3f333c280d.mockapi.io/barang/barang`;
+  // const api = `http://ner.grit.id:8006/barangMasuk`;
   const api = `http://localhost:3000/barangMasuk`;
   const rows = props?.data?.map((item, index) =>
     createData(
@@ -185,7 +187,7 @@ export default function BarangMasukTable(props) {
   const HandelEdit = (id) => {
     setLoading(true);
     axios
-      .put(`${api}/${dataEdit?.id}`, body)
+      .put(`${process.env.REACT_APP_API_URL_API_}/barangMasuk/${dataEdit?.id}`, body)
       .then((res) => {
         props?.getData();
         handleClose();
@@ -239,7 +241,7 @@ export default function BarangMasukTable(props) {
   const HandelDelete = (id) => {
     setLoading(true);
     axios
-      .delete(`${api}/${id}`)
+      .delete(`${process.env.REACT_APP_API_URL_API_}/barangMasuk/${id}`)
       .then((res) => {
         props?.getData();
         setLoading(false);

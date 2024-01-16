@@ -17,11 +17,13 @@ function BarangMasuk() {
   const [dataMasterBarang, setDataMasterBarang] = useState([]);
   const [dataMasterSuplayer, setDataMasterSuplayer] = useState([]);
   // const api = `https://6530fba34d4c2e3f333c280d.mockapi.io/barang/barang`;
+  // console.log(process.env.REACT_APP_API_URL_API_, 'kkkk');
+  // const api = `http://ner.grit.id:8006`;
   const api = `http://localhost:3000`;
   const getData = async () => {
     setLoading(true);
     const response = await axios
-      .get(`${api}/barangMasuk`)
+      .get(`${process.env.REACT_APP_API_URL_API_}/barangMasuk`)
       .then((res) => {
         setData(res?.data);
         setLoading(false);
@@ -64,7 +66,7 @@ function BarangMasuk() {
   const getMasterBarang = () => {
     setLoading(true);
     axios
-      .get(`${api}/mstBarangs`)
+      .get(`${process.env.REACT_APP_API_URL_API_}/mstBarangs`)
       .then((res) => {
         setDataMasterBarang(res?.data);
         setLoading(false);
@@ -106,7 +108,7 @@ function BarangMasuk() {
   const getMasterSupllayer = () => {
     setLoading(true);
     axios
-      .get(`${api}/suplayer`)
+      .get(`${process.env.REACT_APP_API_URL_API_}/suplayer`)
       .then((res) => {
         setDataMasterSuplayer(res?.data);
         setLoading(false);

@@ -77,7 +77,8 @@ export default function UserRolesTable(props) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   // const api = `https://652d2c32f9afa8ef4b26e7f0.mockapi.io/tokoBangunan/v1/suplayer`;
-  const api = `http://localhost:3000`;
+  const api = `http://ner.grit.id:8006`;
+  // const api = `http://localhost:3000`;
   const rows = props?.data?.map((item, index) =>
     createData(index + 1, item?.id, item?.username, item?.password, item?.userRoles)
   );
@@ -107,7 +108,7 @@ export default function UserRolesTable(props) {
   const HandelEdit = (id) => {
     setLoading(true);
     axios
-      .put(`${api}/allUser/${dataEdit?.id}`, body)
+      .put(`${process.env.REACT_APP_API_URL_API_}/allUser/${dataEdit?.id}`, body)
       .then((res) => {
         props?.getData();
         handleClose();
@@ -162,7 +163,7 @@ export default function UserRolesTable(props) {
     // console.log(id, 'id');
     setLoading(true);
     axios
-      .delete(`${api}/allUser/${id}`)
+      .delete(`${process.env.REACT_APP_API_URL_API_}/allUser/${id}`)
       .then((res) => {
         props?.getData();
         setLoading(false);

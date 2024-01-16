@@ -30,11 +30,13 @@ function UserNavbarHeader(props) {
   const userRoles = JSON.parse(localStorage.getItem('userRoles'));
   let getAllUserResponse;
   let getResponseName;
+  let dataLogin;
   if (userRoles) {
     getAllUserResponse = userRoles?.response?.userRoles;
     getResponseName = userRoles?.response;
+    dataLogin = JSON.parse(getAllUserResponse);
   }
-  const dataLogin = JSON.parse(getAllUserResponse);
+  // const dataLogin = JSON.parse(getAllUserResponse);
   // console.log(dataLogin)
 
   return (

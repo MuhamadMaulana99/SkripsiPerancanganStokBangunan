@@ -59,7 +59,8 @@ function BarangKeluarHeader(props) {
     satuan,
   };
   // const api = `https://652d2c32f9afa8ef4b26e7f0.mockapi.io/tokoBangunan/v1/suplayer/1/tokoBangunan`;
-  const api = `http://localhost:3000/barangKeluar`;
+  const api = `http://ner.grit.id:8006/barangKeluar`;
+  // const api = `http://localhost:3000/barangKeluar`;
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -76,7 +77,7 @@ function BarangKeluarHeader(props) {
   const HandelSubmit = () => {
     setLoading(true);
     axios
-      .post(`${api}`, body)
+      .post(`${process.env.REACT_APP_API_URL_API_}`, body)
       .then((res) => {
         // setData(res?.data);
         props.getData();

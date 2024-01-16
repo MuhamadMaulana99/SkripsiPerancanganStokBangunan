@@ -16,11 +16,13 @@ function UserMenu(props) {
   const userRoles = JSON.parse(localStorage.getItem('userRoles'));
   let getAllUserResponse;
   let getResponseName;
+  let dataLogin;
   if (userRoles) {
     getAllUserResponse = userRoles?.response?.userRoles;
     getResponseName = userRoles?.response;
+    dataLogin = JSON.parse(getAllUserResponse);
   }
-  const dataLogin = JSON.parse(getAllUserResponse);
+  // const dataLogin = JSON.parse(getAllUserResponse);
   console.log(dataLogin);
 
   const [userMenu, setUserMenu] = useState(null);
@@ -53,9 +55,9 @@ function UserMenu(props) {
         </div>
 
         {user.data.photoURL ? (
-          <Avatar className="md:mx-4" alt="user photo" src={user.data.photoURL} />
+          <Avatar className="md:mx-4" alt="user photo" src={user?.data?.photoURL} />
         ) : (
-          <Avatar className="md:mx-4">{user.data.displayName[0]}</Avatar>
+          <Avatar className="md:mx-4">{user?.data?.displayName[0]}</Avatar>
         )}
       </Button>
 

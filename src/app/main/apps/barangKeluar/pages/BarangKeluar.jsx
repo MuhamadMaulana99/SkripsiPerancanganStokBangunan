@@ -15,12 +15,13 @@ function BarangKeluar() {
   const [loading, setLoading] = React.useState(true);
   const [dataMasterBarang, setDataMasterBarang] = useState([]);
   // const api = `https://652d2c32f9afa8ef4b26e7f0.mockapi.io/tokoBangunan/v1/suplayer/1/tokoBangunan`;
-  const api = `http://localhost:3000`;
+  const api = `http://ner.grit.id:8006`;
+  // const api = `http://localhost:3000`;
   const isMobile = useThemeMediaQuery((theme) => theme.breakpoints.down('lg'));
   const getData = async () => {
     setLoading(true);
     const response = await axios
-      .get(`${api}/barangKeluar`)
+      .get(`${process.env.REACT_APP_API_URL_API_}/barangKeluar`)
       .then((res) => {
         setData(res?.data);
         setLoading(false);
@@ -63,7 +64,7 @@ function BarangKeluar() {
   const getMasterBarang = () => {
     setLoading(true);
     axios
-      .get(`${api}/mstBarangs`)
+      .get(`${process.env.REACT_APP_API_URL_API_}/mstBarangs`)
       .then((res) => {
         setDataMasterBarang(res?.data);
         setLoading(false);

@@ -32,7 +32,8 @@ function SupllayerHeader(props) {
     alamat,
   };
   // const api = `https://652d2c32f9afa8ef4b26e7f0.mockapi.io/tokoBangunan/v1/suplayer`;
-  const api = `http://localhost:3000/suplayer`;
+  const api = `http://ner.grit.id:8006/suplayer`;
+  // const api = `http://localhost:3000/suplayer`;
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -44,7 +45,7 @@ function SupllayerHeader(props) {
   const HandelSubmit = () => {
     setLoading(true);
     axios
-      .post(`${api}`, body)
+      .post(`${process.env.REACT_APP_API_URL_API_}/suplayer`, body)
       .then((res) => {
         // setData(res?.data);
         props.getData();

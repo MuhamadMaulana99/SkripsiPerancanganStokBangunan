@@ -32,7 +32,8 @@ function MasterBarangHeader(props) {
     alamat,
   };
   // const api = `https://652d2c32f9afa8ef4b26e7f0.mockapi.io/tokoBangunan/v1/mstBarangs`;
-  const api = `http://localhost:3000/mstBarangs`;
+  const api = `http://ner.grit.id:8006/mstBarangs`;
+  // const api = `http://localhost:3000/mstBarangs`;
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -44,7 +45,7 @@ function MasterBarangHeader(props) {
   const HandelSubmit = () => {
     setLoading(true);
     axios
-      .post(`${api}`, body)
+      .post(`${process.env.REACT_APP_API_URL_API_}/mstBarangs`, body)
       .then((res) => {
         // setData(res?.data);
         props.getData();

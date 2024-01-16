@@ -59,7 +59,8 @@ export default function SatuanTable(props) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   // const api = `https://652d2c32f9afa8ef4b26e7f0.mockapi.io/tokoBangunan/v1/suplayer`;
-  const api = `http://localhost:3000/mstSatuan`;
+  const api = `http://ner.grit.id:8006/mstSatuan`;
+  // const api = `http://localhost:3000/mstSatuan`;
   const rows = props?.data?.map((item, index) => createData(index + 1, item?.id, item?.name));
 
   const handleChangePage = (event, newPage) => {
@@ -85,7 +86,7 @@ export default function SatuanTable(props) {
   const HandelEdit = (id) => {
     setLoading(true);
     axios
-      .put(`${api}/${dataEdit?.id}`, body)
+      .put(`${process.env.REACT_APP_API_URL_API_}/mstSatuan/${dataEdit?.id}`, body)
       .then((res) => {
         props?.getData();
         handleClose();
@@ -139,7 +140,7 @@ export default function SatuanTable(props) {
   const HandelDelete = (id) => {
     setLoading(true);
     axios
-      .delete(`${api}/${id}`)
+      .delete(`${process.env.REACT_APP_API_URL_API_}/${id}`)
       .then((res) => {
         props?.getData();
         setLoading(false);

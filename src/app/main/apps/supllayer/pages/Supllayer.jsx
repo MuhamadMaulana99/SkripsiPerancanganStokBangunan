@@ -14,12 +14,13 @@ function Supllayer() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   // const api = `https://652d2c32f9afa8ef4b26e7f0.mockapi.io/tokoBangunan/v1/suplayer`;
-  const api = `http://localhost:3000/suplayer`;
+  // const api = `http://localhost:3000/suplayer`;
+  const api = `http://ner.grit.id:8006/suplayer`;
   const isMobile = useThemeMediaQuery((theme) => theme.breakpoints.down('lg'));
   const getData = async () => {
     setLoading(true);
     const response = await axios
-      .get(`${api}`)
+      .get(`${process.env.REACT_APP_API_URL_API_}/suplayer`)
       .then((res) => {
         setData(res?.data);
         setLoading(false);

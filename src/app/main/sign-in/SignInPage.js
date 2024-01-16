@@ -27,7 +27,8 @@ const defaultValues = {
 };
 
 function SignInPage() {
-  const api = `http://localhost:3000`;
+  const api = `http://ner.grit.id:8006`;
+  // const api = `http://localhost:3000`;
   const dispatch = useDispatch();
   const [userName, setuserName] = useState('');
   const [passWord, setpassWord] = useState('');
@@ -64,9 +65,12 @@ function SignInPage() {
   // };
   const handleSubmitLogin = () => {
     axios
-      .post(`${api}/login`, { username: userName, password: passWord })
+      .post(`${process.env.REACT_APP_API_URL_API_}/login`, {
+        username: userName,
+        password: passWord,
+      })
       .then((res) => {
-        window.location.href = 'dataBarang';
+        window.location.href = '/apps/dataBarang/';
         localStorage.setItem('userRoles', JSON.stringify(res?.data));
         dispatch(
           showMessage({

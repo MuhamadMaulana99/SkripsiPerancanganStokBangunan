@@ -75,7 +75,8 @@ export default function SupllayerTable(props) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   // const api = `https://652d2c32f9afa8ef4b26e7f0.mockapi.io/tokoBangunan/v1/suplayer`;
-  const api = `http://localhost:3000/suplayer`;
+  const api = `http://ner.grit.id:8006/suplayer`;
+  // const api = `http://localhost:3000/suplayer`;
   const rows = props?.data?.map((item, index) =>
     createData(index + 1, item?.id, item?.name, item?.noTlp, item?.alamat)
   );
@@ -105,7 +106,7 @@ export default function SupllayerTable(props) {
   const HandelEdit = (id) => {
     setLoading(true);
     axios
-      .put(`${api}/${dataEdit?.id}`, body)
+      .put(`${process.env.REACT_APP_API_URL_API_}/suplayer/${dataEdit?.id}`, body)
       .then((res) => {
         props?.getData();
         handleClose();
@@ -159,7 +160,7 @@ export default function SupllayerTable(props) {
   const HandelDelete = (id) => {
     setLoading(true);
     axios
-      .delete(`${api}/${id}`)
+      .delete(`${process.env.REACT_APP_API_URL_API_}/suplayer/${id}`)
       .then((res) => {
         props?.getData();
         setLoading(false);

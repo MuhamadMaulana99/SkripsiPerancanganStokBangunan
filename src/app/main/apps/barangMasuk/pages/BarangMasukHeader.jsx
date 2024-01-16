@@ -65,6 +65,7 @@ function BarangMasukHeader(props) {
   };
   // const api = `https://6530fba34d4c2e3f333c280d.mockapi.io/barang/barang`;
   // const api = `http://localhost:3000/barangMasuk`;
+  // const api = `http://ner.grit.id:8006`;
   const api = `http://localhost:3000`;
 
   const handleClickOpen = () => {
@@ -82,7 +83,7 @@ function BarangMasukHeader(props) {
   const HandelSubmit = () => {
     setLoading(true);
     axios
-      .post(`${api}/barangMasuk`, body)
+      .post(`${process.env.REACT_APP_API_URL_API_}/barangMasuk`, body)
       .then((res) => {
         // setData(res?.data);
         props.getData();
@@ -138,7 +139,7 @@ function BarangMasukHeader(props) {
   const getDataSatuan = async () => {
     setLoading(true);
     const response = await axios
-      .get(`${api}/mstSatuan`)
+      .get(`${process.env.REACT_APP_API_URL_API_}/mstSatuan`)
       .then((res) => {
         setdataSatuan(res?.data);
         setLoading(false);

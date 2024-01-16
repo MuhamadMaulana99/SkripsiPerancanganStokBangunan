@@ -100,7 +100,8 @@ export default function DataBarangTable(props) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   // const api = `https://652d2c32f9afa8ef4b26e7f0.mockapi.io/tokoBangunan/v1/suplayer/1/tokoBangunan`;
-  const api = `http://localhost:3000/dataBarangs`;
+  const api = `http://ner.grit.id:8006/dataBarangs`;
+  // const api = `http://localhost:3000/dataBarangs`;
   const rows = props?.data?.map((item, index) =>
     createData(
       index + 1,
@@ -142,7 +143,7 @@ export default function DataBarangTable(props) {
   const HandelEdit = (id) => {
     setLoading(true);
     axios
-      .put(`${api}/${dataEdit?.id}`, body)
+      .put(`${process.env.REACT_APP_API_URL_API_}/dataBarangs/${dataEdit?.id}`, body)
       .then((res) => {
         props?.getData();
         handleClose();
@@ -196,7 +197,7 @@ export default function DataBarangTable(props) {
   const HandelDelete = (id) => {
     setLoading(true);
     axios
-      .delete(`${api}/${id}`)
+      .delete(`${process.env.REACT_APP_API_URL_API_}/dataBarangs/${id}`)
       .then((res) => {
         props?.getData();
         setLoading(false);

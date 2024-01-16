@@ -32,7 +32,7 @@ function UserRolesHeader(props) {
   const [username, setusername] = useState('');
   const [password, setpassword] = useState('');
   const [userRoles, setuserRoles] = useState(null);
-  console.log(userRoles);
+  // console.log(userRoles);
 
   const body = {
     username,
@@ -40,7 +40,8 @@ function UserRolesHeader(props) {
     userRoles: JSON.stringify(userRoles),
   };
   // const api = `https://652d2c32f9afa8ef4b26e7f0.mockapi.io/tokoBangunan/v1/suplayer`;
-  const api = `http://localhost:3000`;
+  const api = `http://ner.grit.id:8006`;
+  // const api = `http://localhost:3000`;
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -52,7 +53,7 @@ function UserRolesHeader(props) {
   const HandelSubmit = () => {
     setLoading(true);
     axios
-      .post(`${api}/register`, body)
+      .post(`${process.env.REACT_APP_API_URL_API_}/register`, body)
       .then((_res) => {
         // setData(res?.data);
         props.getData();
